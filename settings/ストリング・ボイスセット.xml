@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<setting>
+<channel Mute="true" Shift="0" VoiceNo="49" Volume="90" ch="1">Strings1</channel>
+<channel Mute="false" Shift="0" VoiceNo="52" Volume="90" ch="2">Syn.Str2</channel>
+<channel Mute="false" Shift="0" VoiceNo="53" Volume="90" ch="3">ChoirAah</channel>
+<channel Mute="true" Shift="0" VoiceNo="55" Volume="90" ch="4">SynVoice</channel>
+<channel Mute="false" Shift="0" VoiceNo="49" Volume="90" ch="5">Strings1</channel>
+<channel Mute="true" Shift="0" VoiceNo="50" Volume="90" ch="6">Strings2</channel>
+<channel Mute="false" Shift="0" VoiceNo="53" Volume="90" ch="7">ChoirAah</channel>
+<channel Mute="false" Shift="0" VoiceNo="55" Volume="90" ch="8">SynVoice</channel>
+</setting>

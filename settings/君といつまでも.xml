@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<setting>
+<channel Mute="false" Shift="0" VoiceNo="19" Volume="110" ch="1">RockOrgn</channel>
+<channel Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="2">GrandPno</channel>
+<channel Mute="true" Shift="0" VoiceNo="49" Volume="110" ch="3">Strings1</channel>
+<channel Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="4">GrandPno</channel>
+<channel Mute="false" Shift="0" VoiceNo="53" Volume="110" ch="5">ChoirAah</channel>
+<channel Mute="true" Shift="0" VoiceNo="19" Volume="110" ch="6">RockOrgn</channel>
+<channel Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="7">GrandPno</channel>
+<channel Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="8">GrandPno</channel>
+</setting>

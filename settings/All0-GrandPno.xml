@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<setting LowerOct="5" SplitPoint="64" UpperOct="2">
+<channel LSBvalue="0" Mute="true" Shift="0" VoiceNo="1" Volume="90" ch="1">GrandPno</channel>
+<channel LSBvalue="0" Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="2">GrandPno</channel>
+<channel LSBvalue="0" Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="3">GrandPno</channel>
+<channel LSBvalue="0" Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="4">GrandPno</channel>
+<channel LSBvalue="0" Mute="true" Shift="0" VoiceNo="1" Volume="90" ch="5">GrandPno</channel>
+<channel LSBvalue="0" Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="6">GrandPno</channel>
+<channel LSBvalue="0" Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="7">GrandPno</channel>
+<channel LSBvalue="0" Mute="false" Shift="0" VoiceNo="1" Volume="90" ch="8">GrandPno</channel>
+</setting>

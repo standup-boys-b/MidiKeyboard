@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<setting>
+<channel Shift="0" VoiceNo="5" Volume="90" ch="1"/>
+<channel Shift="0" VoiceNo="1" Volume="60" ch="2"/>
+<channel Shift="0" VoiceNo="3" Volume="50" ch="3"/>
+<channel Shift="0" VoiceNo="1" Volume="0" ch="4"/>
+<channel Shift="0" VoiceNo="53" Volume="90" ch="5"/>
+<channel Shift="0" VoiceNo="49" Volume="60" ch="6"/>
+<channel Shift="0" VoiceNo="41" Volume="60" ch="7"/>
+<channel Shift="0" VoiceNo="17" Volume="60" ch="8"/>
+</setting>

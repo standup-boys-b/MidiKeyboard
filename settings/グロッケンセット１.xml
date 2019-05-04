@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<setting>
+<channel Mute="true" Shift="0" VoiceNo="9" Volume="90" ch="1">Celesta</channel>
+<channel Mute="false" Shift="0" VoiceNo="10" Volume="90" ch="2">Glocken</channel>
+<channel Mute="true" Shift="0" VoiceNo="11" Volume="90" ch="3">MusicBox</channel>
+<channel Mute="true" Shift="0" VoiceNo="12" Volume="90" ch="4">Vibes</channel>
+<channel Mute="true" Shift="0" VoiceNo="9" Volume="90" ch="5">Celesta</channel>
+<channel Mute="false" Shift="0" VoiceNo="10" Volume="90" ch="6">Glocken</channel>
+<channel Mute="true" Shift="0" VoiceNo="11" Volume="90" ch="7">MusicBox</channel>
+<channel Mute="true" Shift="0" VoiceNo="12" Volume="90" ch="8">Vibes</channel>
+</setting>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<setting>
+<channel Mute="true" Shift="24" VoiceNo="99" Volume="90" ch="1">Crystal</channel>
+<channel Mute="false" Shift="12" VoiceNo="83" Volume="90" ch="2">CaliopLd</channel>
+<channel Mute="false" Shift="0" VoiceNo="86" Volume="90" ch="3">Voice Ld</channel>
+<channel Mute="false" Shift="0" VoiceNo="95" Volume="90" ch="4">Halo Pad</channel>
+<channel Mute="false" Shift="0" VoiceNo="89" Volume="90" ch="5">NewAgePd</channel>
+<channel Mute="true" Shift="0" VoiceNo="97" Volume="90" ch="6">Rain</channel>
+<channel Mute="false" Shift="0" VoiceNo="91" Volume="90" ch="7">PolySyPd</channel>
+<channel Mute="false" Shift="0" VoiceNo="92" Volume="90" ch="8">ChoirPad</channel>
+</setting>

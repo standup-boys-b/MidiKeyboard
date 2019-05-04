@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<setting>
+<channel Mute="true" Shift="0" VoiceNo="19" Volume="90" ch="1">RockOrgn</channel>
+<channel Mute="false" Shift="-12" VoiceNo="15" Volume="40" ch="2">TubulBel</channel>
+<channel Mute="true" Shift="-24" VoiceNo="49" Volume="60" ch="3">Strings1</channel>
+<channel Mute="false" Shift="-24" VoiceNo="53" Volume="80" ch="4">ChoirAah</channel>
+<channel Mute="true" Shift="0" VoiceNo="17" Volume="90" ch="5">DrawOrgn</channel>
+<channel Mute="false" Shift="0" VoiceNo="5" Volume="90" ch="6">E.Piano1</channel>
+<channel Mute="true" Shift="-24" VoiceNo="39" Volume="90" ch="7">SynBass1</channel>
+<channel Mute="false" Shift="-36" VoiceNo="40" Volume="90" ch="8">SynBass2</channel>
+</setting>

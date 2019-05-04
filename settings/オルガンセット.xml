@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<setting>
+<channel Mute="false" Shift="0" VoiceNo="17" Volume="90" ch="1">DrawOrgn</channel>
+<channel Mute="false" Shift="0" VoiceNo="18" Volume="90" ch="2">PercOrgn</channel>
+<channel Mute="true" Shift="24" VoiceNo="19" Volume="90" ch="3">RockOrgn</channel>
+<channel Mute="false" Shift="0" VoiceNo="20" Volume="90" ch="4">ChrchOrg</channel>
+<channel Mute="false" Shift="0" VoiceNo="21" Volume="90" ch="5">ReedOrgn</channel>
+<channel Mute="false" Shift="0" VoiceNo="22" Volume="90" ch="6">Acordion</channel>
+<channel Mute="true" Shift="12" VoiceNo="19" Volume="90" ch="7">RockOrgn</channel>
+<channel Mute="false" Shift="0" VoiceNo="24" Volume="90" ch="8">TangoAcd</channel>
+</setting>
