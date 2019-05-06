@@ -61,6 +61,10 @@ public class SampleController {
 	@FXML private Label lblUpperOctave;
 	@FXML private Label lblLowerOctave;
 	@FXML private TextField txtSplitpoint;
+
+	@FXML private Label lblSplitpoint;
+	@FXML private ComboBox<String> cmbOutDevice;
+	@FXML private ComboBox<String> cmbInDevice;
 	
 	@FXML private Label lblTest;
 	@FXML private GridPane gridPane;
@@ -87,10 +91,27 @@ public class SampleController {
 	private MapVoiceList mapV;
 	private int tmpNoteNo;
 	HashMap<String, String> mapPressedChar;
+	HashMap<String, String> mapSplitpoint;
 	
 	private SysExManager sxm;
 	private Label[] lblVoiceGroup;
 	private Label[] lblLSBList;
+	
+	private void initSplitpoint(){
+		mapSplitpoint = new HashMap<String, String>();
+		mapSplitpoint.put("0", "C ");
+		mapSplitpoint.put("1", "C#");
+		mapSplitpoint.put("2", "D ");
+		mapSplitpoint.put("3", "D#");
+		mapSplitpoint.put("4", "E ");
+		mapSplitpoint.put("5", "F ");
+		mapSplitpoint.put("6", "F#");
+		mapSplitpoint.put("7", "G ");
+		mapSplitpoint.put("8", "G#");
+		mapSplitpoint.put("9", "A ");
+		mapSplitpoint.put("10", "A#");
+		mapSplitpoint.put("11", "B ");
+	}
 	
 	@FXML
 	public void onBtnOKClicked(ActionEvent e){
@@ -124,6 +145,8 @@ public class SampleController {
 	}
 	@FXML
 	public void onKeyPressed(KeyEvent e){
+		if (this.txtSplitpoint.isFocused()) return;
+
 		String keyChar = e.getText().toLowerCase();
 		lblTest.setText("<" + keyChar + e.getCode().toString());
 		
@@ -165,6 +188,8 @@ public class SampleController {
 	}
 	@FXML
 	public void onKeyReleased(KeyEvent e){
+		if (this.txtSplitpoint.isFocused()) return;
+		
 		String keyChar = e.getText().toLowerCase();
 		lblTest.setText(keyChar + ">");
 
@@ -326,22 +351,20 @@ public class SampleController {
 		mapPressedChar = new HashMap<String, String>();
 		mp = new MidiPlayer(false,null,this);
 		sxm = new SysExManager();
+		initSplitpoint();
 		
 //		strUpperKeyChars = "1234567890-~\\qwertyuiop[";
 		strUpperKeyChars = "1234567890-^qwertyuiop@[";
 		
-//		ObservableList<String> data = FXCollections.observableArrayList("One","Two","Three");
-
+		//セッティングDDLの初期化 ＊Linuxの場合、/で区切るようにする必要あり？
 		ObservableList<String> data = FXCollections.observableArrayList();
 		File dir = new File(".\\settings");
 		File[] files = dir.listFiles();
 		if(files != null){
-			System.out.println();
-			for(int i=0; i<files.length; i++)
-			data.add(files[i].getName().replaceFirst(".xml", ""));	
+			for(int i=0; i<files.length; i++){
+				data.add(files[i].getName().replaceFirst(".xml", ""));	
+			}
 		}
-		
-
 		cmbFilename.getItems().addAll(data);
 
 		//音色ラベルの初期化
@@ -435,9 +458,9 @@ public class SampleController {
 			chkOnOff[i].setOnKeyPressed(KeyEvent -> {
 				focusVoice(KeyEvent);
 			});
-			txtSplitpoint.setOnKeyPressed(KeyEvent -> {
-				changeSplitpoint(KeyEvent);
-			});
+//			txtSplitpoint.setOnKeyPressed(KeyEvent -> {
+//				changeSplitpoint(KeyEvent);
+//			});
 		}
 	
 	}
@@ -466,6 +489,8 @@ public class SampleController {
 		txtReserve.setDisable(editable);
 		txtSplitpoint.setDisable(editable);
 	}
+	
+	@FXML
 	public void changeSplitpoint(KeyEvent e){
 		KeyCode k = e.getCode();
 		int splitpoint = Integer.parseInt(txtSplitpoint.getText());
@@ -477,6 +502,9 @@ public class SampleController {
 			default:
 		}
 		txtSplitpoint.setText(String.valueOf(splitpoint));
+		int a = splitpoint / 12;
+		int b = splitpoint % 12;
+		lblSplitpoint.setText(mapSplitpoint.get(String.valueOf(b)) + String.valueOf(a));
 	}
 	public int getSplitpoint(){
 		return Integer.parseInt(txtSplitpoint.getText());

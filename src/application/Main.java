@@ -12,8 +12,9 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
-			Scene scene = new Scene(root,480,700);
+			Scene scene = new Scene(root,800,600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setTitle("[MU50Player] on " + System.getProperty("os.name"));
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
