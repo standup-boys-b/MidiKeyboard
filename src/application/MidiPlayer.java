@@ -115,21 +115,25 @@ public class MidiPlayer {
 	}
 
 	public void closeDevice() {
+		
 		try {
             if (defRecv != null) defRecv.close();
             if (trans != null) trans.close();
             if (dev != null) dev.close();
             if (devInput != null) devInput.close();
             System.out.println("Device[" + dev.getDeviceInfo().getName() + "] is open? : " + dev.isOpen());
+            System.out.println("Device[" + devInput.getDeviceInfo().getName() + "] is open? : " + devInput.isOpen());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	public void openDevice(int deviceNo){
+	public void openDevice(int devOutNo, int devInNo){
 		try {
 			if (dev != null) dev.close();
-			dev = devices.get(deviceNo);
+			dev = devices.get(devOutNo);
+			if (devInput != null) devInput.close();
+			devInput = devices.get(devInNo);
 			openDevice();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -148,6 +152,7 @@ public class MidiPlayer {
 //              trans.setReceiver(defRecv);
             }
             System.out.println("Device[" + dev.getDeviceInfo().getName() + "] is open? : " + dev.isOpen());
+            System.out.println("Device[" + devInput.getDeviceInfo().getName() + "] is open? : " + devInput.isOpen());
 		}catch(Exception e){
 			e.printStackTrace();
 		}

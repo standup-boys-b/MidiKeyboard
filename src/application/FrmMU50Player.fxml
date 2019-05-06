@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -71,7 +72,7 @@
 				      <Label fx:id="lblUpperOctave" text="2" GridPane.rowIndex="3" />
 				      <Label fx:id="lblLowerOctave" text="5" GridPane.rowIndex="7" />
 				      <Button fx:id="btnOpenDevice" disable="true" mnemonicParsing="false" onAction="#openDevice" text="Open Device" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="14" />
-				      <Button fx:id="btnCloseDevice" disable="true" mnemonicParsing="false" onAction="#closeDevice" text="Close Device" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="14" />
+				      <Button fx:id="btnCloseDevice" disable="true" mnemonicParsing="false" onAction="#closeDevice" text="Close Device" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="15" />
 				      <Label text="[Esc]Toggle Edit" GridPane.rowIndex="11" />
 				      <Label text="noteNo" GridPane.columnIndex="8" />
                         <TextArea fx:id="txtReserve" prefHeight="58.0" prefWidth="203.0" text="F0 43 10 4C 09 01 00 02 F7&#10;F0 43 10 4C 09 02 00 02 F7&#10;F0 43 10 4C 09 03 00 02 F7" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="11" GridPane.rowSpan="2" />
@@ -86,6 +87,8 @@
                         <Label fx:id="lblSplitpoint" text="E 5" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
                         <Button fx:id="btnSearchDevice" mnemonicParsing="false" onAction="#searchDevice" text="Search Device" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="13" />
                         <CheckBox fx:id="chkSoundFont" mnemonicParsing="false" text="Use SoundFont" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="13" />
+                        <Label fx:id="lblDevOutNull" text="dev[OUT] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="14" />
+                        <Label fx:id="lblDevInNull" layoutX="387.0" layoutY="438.0" text="dev[IN] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="15" />
 				   </children>
 				</GridPane>
                </children>
