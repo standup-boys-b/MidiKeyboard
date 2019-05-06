@@ -35,6 +35,7 @@ public class MidiPlayer {
 	JCheckBox[] chkMute;
 	File file;
 	SampleController sc;
+	private ArrayList<MidiDevice> devices;
 	
 	public MidiPlayer(boolean isUpperKey, JCheckBox[] chkMute, SampleController sc) {
 		try {
@@ -43,16 +44,15 @@ public class MidiPlayer {
 			this.chkMute = chkMute;
 			this.sc = sc;
 
-			// deviceÇÃèÄîı
-			ArrayList<MidiDevice> devices = getDevices();
+			devices = getDevices();
 			dumpDeviceInfo(devices);
 
-	        boolean isUseSoundfont = false;
+	        boolean isUseSoundfont = sc.isUseSoundFont();
 	        if(isUseSoundfont){
 	        	//--SoundfontÇégópÇ∑ÇÈèÍçá--------------------------------------------------------------
 				System.out.println("===Preparing Soundfont!!===");
 //				file = new File("GeneralUser GS MuseScore v1.442.sf2");
-				file = new File("resource\\TimGM6mb.sf2");
+				file = new File("resource/TimGM6mb.sf2");
 				System.out.println(file.getAbsolutePath());
 				System.out.println("exists? " + file.exists());
 //				SF2Soundbank bank = new SF2Soundbank(file);
@@ -100,6 +100,18 @@ public class MidiPlayer {
 	public int getSplitpoint(){
 		return sc.getSplitpoint();
 	}
+	
+	public ArrayList<String> getDeviceList(){
+		ArrayList<String> ary = new ArrayList<String>();
+        MidiDevice device;
+        MidiDevice.Info info;
+		for(int i=0; i<devices.size(); i++){
+	        device = devices.get(i);
+	        info = device.getDeviceInfo();
+			ary.add(String.valueOf(i) + " " + info.getName());
+		}
+		return ary;	
+	}
 
 	public void closeDevice() {
 		try {
@@ -107,7 +119,17 @@ public class MidiPlayer {
             if (trans != null) trans.close();
             if (dev != null) dev.close();
             if (devInput != null) devInput.close();
-            System.out.println("Is device open? : " + dev.isOpen());
+            System.out.println("Device[" + dev.getDeviceInfo().getName() + "] is open? : " + dev.isOpen());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void openDevice(int deviceNo){
+		try {
+			if (dev != null) dev.close();
+			dev = devices.get(deviceNo);
+			openDevice();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -124,7 +146,7 @@ public class MidiPlayer {
                 trans.setReceiver(orgRecv);
 //              trans.setReceiver(defRecv);
             }
-            System.out.println("Is device open? : " + dev.isOpen());
+            System.out.println("Device[" + dev.getDeviceInfo().getName() + "] is open? : " + dev.isOpen());
 		}catch(Exception e){
 			e.printStackTrace();
 		}

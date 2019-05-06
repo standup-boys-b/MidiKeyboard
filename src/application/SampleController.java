@@ -49,6 +49,7 @@ import javafx.scene.text.Font;
 
 public class SampleController {
 	@FXML private Button btnOK;
+	@FXML private Button btnSearchDevice;
 	@FXML private Button btnOpenDevice;
 	@FXML private Button btnCloseDevice;
 	@FXML private Button btnLoad;
@@ -65,6 +66,7 @@ public class SampleController {
 	@FXML private Label lblSplitpoint;
 	@FXML private ComboBox<String> cmbOutDevice;
 	@FXML private ComboBox<String> cmbInDevice;
+	@FXML private CheckBox chkSoundFont;
 	
 	@FXML private Label lblTest;
 	@FXML private GridPane gridPane;
@@ -96,6 +98,10 @@ public class SampleController {
 	private SysExManager sxm;
 	private Label[] lblVoiceGroup;
 	private Label[] lblLSBList;
+	
+	public boolean isUseSoundFont(){
+		return this.chkSoundFont.isSelected();
+	}
 	
 	private void initSplitpoint(){
 		mapSplitpoint = new HashMap<String, String>();
@@ -339,17 +345,10 @@ public class SampleController {
 	}
 	
 	@FXML
-	public void closeDevice(){
-		if (mp != null){
-			mp.closeDevice();
-		}
-	}
-	
-	public void initForm(){
+	public void initialize(){
 		mapK = new MapKeyNote();
 		mapV = new MapVoiceList();
 		mapPressedChar = new HashMap<String, String>();
-		mp = new MidiPlayer(false,null,this);
 		sxm = new SysExManager();
 		initSplitpoint();
 		
@@ -358,7 +357,7 @@ public class SampleController {
 		
 		//セッティングDDLの初期化 ＊Linuxの場合、/で区切るようにする必要あり？
 		ObservableList<String> data = FXCollections.observableArrayList();
-		File dir = new File(".\\settings");
+		File dir = new File("./settings");
 		File[] files = dir.listFiles();
 		if(files != null){
 			for(int i=0; i<files.length; i++){
@@ -464,15 +463,33 @@ public class SampleController {
 		}
 	
 	}
+	
+	@FXML
+	public void searchDevice(){
+		mp = new MidiPlayer(false,null,this);
+		cmbOutDevice.getItems().addAll(mp.getDeviceList());
+		btnOpenDevice.setDisable(false);
+		btnCloseDevice.setDisable(false);
+	}
 	@FXML
 	public void openDevice(){
 		if (mp != null){
-			mp.openDevice();
-		}else{
-			initForm();	
+			mp.openDevice(this.cmbOutDevice.getSelectionModel().getSelectedIndex());
 		}
-//		toggleEditable(true);
+		cmbOutDevice.setDisable(true);
+		btnOpenDevice.setDisable(true);
+		btnCloseDevice.setDisable(false);
 	}
+	@FXML
+	public void closeDevice(){
+		if (mp != null){
+			mp.closeDevice();
+		}
+		cmbOutDevice.setDisable(false);
+		btnOpenDevice.setDisable(false);
+		btnCloseDevice.setDisable(true);
+	}
+	
 	@FXML
 	public void toggleEditable(boolean editable){
 		for(int i=1; i<=8; i++){
