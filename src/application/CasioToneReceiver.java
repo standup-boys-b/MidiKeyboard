@@ -3,14 +3,15 @@ package application;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 
-public class OriginalReceiver implements Receiver {
+public class CasioToneReceiver implements Receiver {
 	
 	private byte[] nowMsg;
 	private MidiPlayer mp;
 	private int keySplitPos = 72;
 	private int[] keyTrigger;
 	
-	public OriginalReceiver(MidiPlayer mp){
+	// コンストラクタ
+	public CasioToneReceiver(MidiPlayer mp){
 		this.mp = mp;
 		keyTrigger = new int[128];
 		for(int i=0; i<128; i++){
@@ -18,6 +19,7 @@ public class OriginalReceiver implements Receiver {
 		}
 	}
 	
+	// 信号の輻輳を防ぐためのメソッド。受信した同一信号のうち先頭だけをcatchし、後続は捨てる
 	private boolean testTrigger(MidiMessage message, long timeStamp){
 		boolean b = false;
 		nowMsg = message.getMessage();
@@ -39,6 +41,7 @@ public class OriginalReceiver implements Receiver {
 		return b;
 	}
 	
+	// upper/lowerの振り分け、レイヤー音、輻輳防止を行ったうえでMIDIoutに演奏信号を送る
 	@Override
 	public void send(MidiMessage message, long timeStamp) {
 		try {

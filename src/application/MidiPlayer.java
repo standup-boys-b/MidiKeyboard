@@ -83,9 +83,10 @@ public class MidiPlayer {
 				System.out.println("Dev was null!");
 			}else{
 				defRecv = dev.getReceiver();
-				orgRecv = new OriginalReceiver(this);
+				orgRecv = new CasioToneReceiver(this);
 			}
 	        // devInputの準備
+	        // USBケーブルのinにつないだデバイス(CasioTone)に対して、Receiver(キー割り振り役)を割り当て
 			if (devInput != null) {
 				trans = devInput.getTransmitter();
 				trans.setReceiver(orgRecv);
