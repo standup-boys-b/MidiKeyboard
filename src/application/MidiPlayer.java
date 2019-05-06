@@ -34,10 +34,10 @@ public class MidiPlayer {
 	boolean isUpperKey;
 	JCheckBox[] chkMute;
 	File file;
-	SampleController sc;
+	CtlMU50Player sc;
 	private ArrayList<MidiDevice> devices;
 	
-	public MidiPlayer(boolean isUpperKey, JCheckBox[] chkMute, SampleController sc) {
+	public MidiPlayer(boolean isUpperKey, JCheckBox[] chkMute, CtlMU50Player sc) {
 		try {
 			this.isUpperKey = isUpperKey;
 			enc = new HexDumpEncoder();
