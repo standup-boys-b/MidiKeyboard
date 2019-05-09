@@ -101,6 +101,12 @@ public class MidiPlayer {
 	public int getSplitpoint(){
 		return sc.getSplitpoint();
 	}
+	public int getUpperOctPosition(){
+		return sc.getUpperOctPosition();
+	}
+	public int getLowerOctPosition(){
+		return sc.getLowerOctPosition();
+	}
 	
 	public ArrayList<String> getDeviceList(){
 		ArrayList<String> ary = new ArrayList<String>();

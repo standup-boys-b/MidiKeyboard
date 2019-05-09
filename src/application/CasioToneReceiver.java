@@ -23,6 +23,7 @@ public class CasioToneReceiver implements Receiver {
 	private boolean testTrigger(MidiMessage message, long timeStamp){
 		boolean b = false;
 		nowMsg = message.getMessage();
+		
 		if ( (nowMsg[0] & 0xF0) == 0x90 && nowMsg[2] > 0){
 			if(keyTrigger[nowMsg[1]] == 0){
 				System.out.println("trig " + nowMsg[1] + " on " + nowMsg[2]);
@@ -44,8 +45,12 @@ public class CasioToneReceiver implements Receiver {
 	// upper/lower‚ÌU‚è•ª‚¯AƒŒƒCƒ„[‰¹Açtçs–h~‚ğs‚Á‚½‚¤‚¦‚ÅMIDIout‚É‰‰‘tM†‚ğ‘—‚é
 	@Override
 	public void send(MidiMessage message, long timeStamp) {
+		
 		try {
 			keySplitPos = mp.getSplitpoint();
+			int upperOctPosition = mp.getUpperOctPosition();
+			int lowerOctPosition = mp.getLowerOctPosition();
+
 			boolean b = testTrigger(message, timeStamp);
 			if (!b) {
 //				System.out.println("no oper");
@@ -58,12 +63,12 @@ public class CasioToneReceiver implements Receiver {
 					if (nowMsg[1] < keySplitPos){
 						//upper keys
 						for(int i=1; i<=4; i++){
-							mp.playNote(nowMsg[1], i);
+							mp.playNote(nowMsg[1] + 12*upperOctPosition, i);
 						}
 					} else {
 						//lower keys
 						for(int i=5; i<=8; i++){
-							mp.playNote(nowMsg[1], i);
+							mp.playNote(nowMsg[1] + 12*lowerOctPosition, i);
 						}
 					}
 				} else {
@@ -71,12 +76,12 @@ public class CasioToneReceiver implements Receiver {
 					if (nowMsg[1] < keySplitPos){
 						//upper keys
 						for(int i=1; i<=4; i++){
-							mp.stopNote(nowMsg[1], i);
+							mp.stopNote(nowMsg[1] + 12*upperOctPosition, i);
 						}
 					} else {
 						//lower keys
 						for(int i=5; i<=8; i++){
-							mp.stopNote(nowMsg[1], i);
+							mp.stopNote(nowMsg[1] + 12*lowerOctPosition, i);
 						}
 					}
 					
