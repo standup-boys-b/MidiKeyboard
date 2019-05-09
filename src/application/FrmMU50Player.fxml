@@ -30,6 +30,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
 				   </rowConstraints>
 				   <columnConstraints>
 				      <ColumnConstraints maxWidth="96.0" minWidth="10.0" prefWidth="91.0" />
@@ -89,6 +90,12 @@
                         <CheckBox fx:id="chkSoundFont" mnemonicParsing="false" text="Use SoundFont" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="13" />
                         <Label fx:id="lblDevOutNull" text="dev[OUT] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="14" />
                         <Label fx:id="lblDevInNull" layoutX="387.0" layoutY="438.0" text="dev[IN] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="15" />
+                        <Label text="Sequencer Test:" GridPane.columnSpan="2" GridPane.rowIndex="16" />
+                        <Button fx:id="btnSeqStart" mnemonicParsing="false" onAction="#btnSeqStartClicked" text="Start" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="16" />
+                        <Button fx:id="btnSeqStop" layoutX="337.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStopClicked" text="Stop" GridPane.columnIndex="7" GridPane.rowIndex="16" />
+                        <Button fx:id="btnSeqClose" layoutX="387.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqCloseClicked" text="Close" GridPane.columnIndex="8" GridPane.rowIndex="16" />
+                        <Button fx:id="btnSeqInit" layoutX="435.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqInitClicked" text="Init" GridPane.columnIndex="4" GridPane.rowIndex="16" />
+                        <Button fx:id="btnSeqPause" layoutX="285.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqPauseClicked" text="Pause" GridPane.columnIndex="6" GridPane.rowIndex="16" />
 				   </children>
 				</GridPane>
                </children>
