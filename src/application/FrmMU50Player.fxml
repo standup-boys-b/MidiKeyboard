@@ -31,6 +31,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
 				   </rowConstraints>
 				   <columnConstraints>
 				      <ColumnConstraints maxWidth="96.0" minWidth="10.0" prefWidth="91.0" />
@@ -94,8 +95,13 @@
                         <Button fx:id="btnSeqStart" mnemonicParsing="false" onAction="#btnSeqStartClicked" text="Start" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="16" />
                         <Button fx:id="btnSeqStop" layoutX="337.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStopClicked" text="Stop" GridPane.columnIndex="7" GridPane.rowIndex="16" />
                         <Button fx:id="btnSeqClose" layoutX="387.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqCloseClicked" text="Close" GridPane.columnIndex="8" GridPane.rowIndex="16" />
-                        <Button fx:id="btnSeqInit" layoutX="435.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqInitClicked" text="Init" GridPane.columnIndex="4" GridPane.rowIndex="16" />
+                        <Button fx:id="btnSeqInit" layoutX="435.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqInitClicked" text="Init" GridPane.columnIndex="2" GridPane.rowIndex="16" />
                         <Button fx:id="btnSeqPause" layoutX="285.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqPauseClicked" text="Pause" GridPane.columnIndex="6" GridPane.rowIndex="16" />
+                        <Button fx:id="btnSeqStartRec" layoutX="112.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStartRecClicked" text="startRec" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="16" />
+                        <Button fx:id="btnSeqStopRec" alignment="CENTER_RIGHT" layoutX="178.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStopRecClicked" text="stopRec" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="16" />
+                        <ComboBox fx:id="cmbMidiFiles" editable="true" layoutX="100.0" layoutY="314.0" prefHeight="23.0" prefWidth="195.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="17" />
+                        <Button fx:id="btnReadMidFile" layoutX="112.0" layoutY="344.0" mnemonicParsing="false" onAction="#onBtnReadMidFileClicked" text="Read" GridPane.columnIndex="5" GridPane.rowIndex="17" />
+                        <Button fx:id="btnWriteMidFile" layoutX="112.0" layoutY="374.0" mnemonicParsing="false" onAction="#onBtnWriteMidFileClicked" text="Write" GridPane.columnIndex="6" GridPane.rowIndex="17" />
 				   </children>
 				</GridPane>
                </children>

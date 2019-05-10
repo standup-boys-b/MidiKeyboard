@@ -53,6 +53,12 @@ public class CtlMU50Player {
 	@FXML private Button btnSeqPause;
 	@FXML private Button btnSeqStop;
 	@FXML private Button btnSeqClose;
+	@FXML private Button btnSeqStartRec;
+	@FXML private Button btnSeqStopRec;
+
+	@FXML private Button btnReadMidFile;
+	@FXML private Button btnWriteMidFile;
+	@FXML private ComboBox<String> cmbMidiFiles;
 
 	@FXML private Button btnOK;
 	@FXML private Button btnSearchDevice;
@@ -187,9 +193,13 @@ public class CtlMU50Player {
 					           + 12*(Integer.parseInt(lblUpperOctave.getText())-2);
 					lblNoteNo[i].setText(String.valueOf(tmpNoteNo));
 					if (0 < tmpNoteNo && tmpNoteNo < 129 && chkOnOff[i].isSelected()) {
-						mp.playNote(tmpNoteNo,
-								    i,
-								    Integer.parseInt(txtVolume[i].getText()));
+						int vol = Integer.parseInt(txtVolume[i].getText());
+						int voice = Integer.parseInt(txtVoice[i].getText());
+						mp.playNote(tmpNoteNo, i, vol);
+						if (seq != null && seq.isRecording()) {
+							System.out.println("1-4 addnoteon");
+							seq.addNoteOnRealtime(i, tmpNoteNo, vol, voice);
+						}
 					}
 				}
 			}else{
@@ -199,9 +209,13 @@ public class CtlMU50Player {
 					           + 12*(Integer.parseInt(lblLowerOctave.getText())-5);
 					lblNoteNo[i].setText(String.valueOf(tmpNoteNo));
 					if (0 < tmpNoteNo && tmpNoteNo < 129 && chkOnOff[i].isSelected()) {
-						mp.playNote(tmpNoteNo,
-								    i,
-								    Integer.parseInt(txtVolume[i].getText()));
+						int vol = Integer.parseInt(txtVolume[i].getText());
+						int voice = Integer.parseInt(txtVoice[i].getText());
+						mp.playNote(tmpNoteNo, i, vol);
+						if (seq != null && seq.isRecording()) {
+							System.out.println("5-8 addnoteon");
+							seq.addNoteOnRealtime(i, tmpNoteNo, vol, voice);
+						}
 					}
 				}
 			}
@@ -231,6 +245,10 @@ public class CtlMU50Player {
 						lblNoteNo[i].setText(null);
 						if (0 < tmpNoteNo && tmpNoteNo < 129 && chkOnOff[i].isSelected()) {
 							mp.stopNote(tmpNoteNo, i, 90);
+							if (seq != null && seq.isRecording()) {
+								System.out.println("1-4 addnoteoff");
+								seq.addNoteOffRealtime(i, tmpNoteNo, 90);
+							}
 						}
 					}
 				}else{
@@ -241,6 +259,10 @@ public class CtlMU50Player {
 						lblNoteNo[i].setText(null);
 						if (0 < tmpNoteNo && tmpNoteNo < 129 && chkOnOff[i].isSelected()) {
 							mp.stopNote(tmpNoteNo, i, 90);
+							if (seq != null && seq.isRecording()) {
+								System.out.println("5-8 addnoteoff");
+								seq.addNoteOffRealtime(i, tmpNoteNo, 90);
+							}
 						}
 					}
 				}
@@ -380,6 +402,17 @@ public class CtlMU50Player {
 			}
 		}
 		cmbFilename.getItems().addAll(data);
+
+		//セッティングDDLの初期化
+		ObservableList<String> data2 = FXCollections.observableArrayList();
+		File dir2 = new File("./midifiles");
+		File[] files2 = dir2.listFiles();
+		if(files2 != null){
+			for(int i=0; i<files2.length; i++){
+				data2.add(files2[i].getName());	
+			}
+		}
+		cmbMidiFiles.getItems().addAll(data2);
 
 		//音色ラベルの初期化
 		lblVoiceList = new Label[8];
@@ -781,6 +814,29 @@ public class CtlMU50Player {
 		txtComment.setText("cloooooose");
 		seq.close();
 	}
+	
+	@FXML
+	public void btnSeqStartRecClicked(){
+		txtComment.setText("start rec");
+		seq.startRec();
+	}
+	@FXML
+	public void btnSeqStopRecClicked(){
+		txtComment.setText("stop rec");
+		seq.stopRec();
+	}
+	
+	@FXML
+	public void onBtnReadMidFileClicked(){
+		String filename = "./midifiles/" + cmbMidiFiles.getSelectionModel().getSelectedItem().toString();
+		seq.readMidiFile(filename);
+	}
+	@FXML
+	public void onBtnWriteMidFileClicked(){
+		String filename = "./midifiles/" + cmbMidiFiles.getSelectionModel().getSelectedItem().toString();
+		seq.writeMidiFile(filename);
+	}
+	
 	@FXML
 	public void onLoadClicked(){
 		String filename = "./settings/" + cmbFilename.getSelectionModel().getSelectedItem().toString();

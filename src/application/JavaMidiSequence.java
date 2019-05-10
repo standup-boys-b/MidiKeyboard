@@ -1,7 +1,12 @@
 package application;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
@@ -9,9 +14,12 @@ import javax.sound.midi.ShortMessage;
 public class JavaMidiSequence {
   private Sequencer sequencer;
   private Sequence  sequence;
+  private boolean isRecording;
+  private long startRecTime;
 
   public JavaMidiSequence() {
     try {
+    	isRecording = false;
       sequencer = MidiSystem.getSequencer();
       sequencer.open();
       sequence  = new Sequence(Sequence.PPQ, 480);
@@ -66,6 +74,23 @@ public class JavaMidiSequence {
     }
   }
 
+  public void writeMidiFile(String filename){
+	  try {
+		  MidiSystem.write(sequence, 0,new File(filename));
+	  } catch (IOException e) {
+		  // TODO 自動生成された catch ブロック
+		  e.printStackTrace();
+	  }
+  }
+  public void readMidiFile(String filename){
+	  try {
+		  sequence = MidiSystem.getSequence(new File(filename));
+		  sequencer.setSequence(sequence);
+	  } catch (InvalidMidiDataException | IOException e) {
+		  // TODO 自動生成された catch ブロック
+		  e.printStackTrace();
+	  }
+  }
   /**
    * シーケンスを再生
    */
@@ -107,5 +132,75 @@ public class JavaMidiSequence {
    */
   public void close() {
     sequencer.close();
+  }
+  
+  public boolean isRecording(){
+	  return isRecording;
+  }
+  public void startRec(){
+    try {
+		sequence  = new Sequence(Sequence.PPQ, 480);
+        sequence.createTrack();
+        sequencer.setSequence(sequence);
+//        sequencer.recordEnable(sequence.getTracks()[0], -1);
+//        sequencer.startRecording();
+        
+        isRecording = true;
+        startRecTime = System.currentTimeMillis();
+        System.out.println("start rec at:" + startRecTime);
+        
+	} catch (InvalidMidiDataException   e) {
+		// TODO 自動生成された catch ブロック
+		e.printStackTrace();
+	}
+  }
+  
+  public void addNoteOnRealtime(int channel, int noteNumber, int velocity, int progNumber){
+
+	  try {
+		  long position = System.currentTimeMillis()-startRecTime;
+		  System.out.println("position:" + position);
+
+	      // プログラムチェンジイベント生成
+	      ShortMessage progChange = new ShortMessage();
+	      progChange.setMessage(ShortMessage.PROGRAM_CHANGE, channel - 1, progNumber - 1, 0);
+	      MidiEvent progChangeEvent = new MidiEvent(progChange, position-10);
+
+	      // ノートオンイベント生成
+		  ShortMessage noteOn = new ShortMessage();
+		  noteOn.setMessage(ShortMessage.NOTE_ON, channel - 1, noteNumber, velocity);
+		  MidiEvent noteOnEvent = new MidiEvent(noteOn, position);
+
+	      sequence.getTracks()[0].add(progChangeEvent);
+	      sequence.getTracks()[0].add(noteOnEvent);
+
+	  } catch (InvalidMidiDataException e) {
+		  e.printStackTrace();
+	  }
+
+  }
+  public void addNoteOffRealtime(int channel, int noteNumber, int velocity){
+
+	  try {
+		  long position = System.currentTimeMillis()-startRecTime;
+		  System.out.println("note off position:" + position);
+
+		  // ノートオフイベント生成
+		  ShortMessage noteOff = new ShortMessage();
+		  noteOff.setMessage(ShortMessage.NOTE_OFF, channel - 1, noteNumber, 0);
+		  MidiEvent noteOffEvent = new MidiEvent(noteOff, position);
+
+	      sequence.getTracks()[0].add(noteOffEvent);
+
+	  } catch (InvalidMidiDataException e) {
+		  e.printStackTrace();
+	  }
+
+  }
+  
+  public void stopRec(){
+//	  sequencer.stopRecording();
+	  isRecording = false;
+	  System.out.println("stop rec at:" + System.currentTimeMillis());
   }
 }
