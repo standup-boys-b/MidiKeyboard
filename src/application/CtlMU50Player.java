@@ -61,6 +61,8 @@ public class CtlMU50Player {
 	@FXML private Button btnReadMidFile;
 	@FXML private Button btnWriteMidFile;
 	@FXML private ComboBox<String> cmbMidiFiles;
+	@FXML private CheckBox chkLoopOn;
+	@FXML private TextField txtLoopCount;
 
 	@FXML private Button btnOK;
 	@FXML private Button btnSearchDevice;
@@ -83,6 +85,7 @@ public class CtlMU50Player {
 	@FXML private ComboBox<String> cmbOutDevice;
 	@FXML private ComboBox<String> cmbInDevice;
 	@FXML private CheckBox chkSoundFont;
+	
 	
 	@FXML private Label lblTest;
 	@FXML private GridPane gridPane;
@@ -109,7 +112,7 @@ public class CtlMU50Player {
 	private MapVoiceList mapV;
 	private int tmpNoteNo;
 	HashMap<String, String> mapPressedChar;
-	HashMap<String, String> mapSplitpoint;
+	HashMap<String, String> mapNoteNames;
 	LinkedHashMap<String, String> mapDrumNames;
 	
 	private JavaMidiSequence seq;
@@ -122,19 +125,19 @@ public class CtlMU50Player {
 	}
 	
 	private void initSplitpoint(){
-		mapSplitpoint = new HashMap<String, String>();
-		mapSplitpoint.put("0", "C ");
-		mapSplitpoint.put("1", "C#");
-		mapSplitpoint.put("2", "D ");
-		mapSplitpoint.put("3", "D#");
-		mapSplitpoint.put("4", "E ");
-		mapSplitpoint.put("5", "F ");
-		mapSplitpoint.put("6", "F#");
-		mapSplitpoint.put("7", "G ");
-		mapSplitpoint.put("8", "G#");
-		mapSplitpoint.put("9", "A ");
-		mapSplitpoint.put("10", "A#");
-		mapSplitpoint.put("11", "B ");
+		mapNoteNames = new HashMap<String, String>();
+		mapNoteNames.put("0", "C ");
+		mapNoteNames.put("1", "C#");
+		mapNoteNames.put("2", "D ");
+		mapNoteNames.put("3", "D#");
+		mapNoteNames.put("4", "E ");
+		mapNoteNames.put("5", "F ");
+		mapNoteNames.put("6", "F#");
+		mapNoteNames.put("7", "G ");
+		mapNoteNames.put("8", "G#");
+		mapNoteNames.put("9", "A ");
+		mapNoteNames.put("10", "A#");
+		mapNoteNames.put("11", "B ");
 	}
 	
 	@FXML
@@ -200,7 +203,9 @@ public class CtlMU50Player {
 					if(i == 4){
 						lblNoteNo[i].setText(mapDrumNames.get(String.valueOf(tmpNoteNo)));
 					} else {
-						lblNoteNo[i].setText(String.valueOf(tmpNoteNo));
+						int a = (tmpNoteNo+1) / 12;
+						int b = (tmpNoteNo+1) % 12;
+						lblNoteNo[i].setText(mapNoteNames.get(String.valueOf(b)) + String.valueOf(a));
 					}
 					if (0 < tmpNoteNo && tmpNoteNo < 129 && chkOnOff[i].isSelected()) {
 						int vol = Integer.parseInt(txtVolume[i].getText());
@@ -220,7 +225,9 @@ public class CtlMU50Player {
 					if(i == 8){
 						lblNoteNo[i].setText(mapDrumNames.get(String.valueOf(tmpNoteNo)));
 					} else {
-						lblNoteNo[i].setText(String.valueOf(tmpNoteNo));
+						int a = (tmpNoteNo+1) / 12;
+						int b = (tmpNoteNo+1) % 12;
+						lblNoteNo[i].setText(mapNoteNames.get(String.valueOf(b)) + String.valueOf(a));
 					}
 					if (0 < tmpNoteNo && tmpNoteNo < 129 && chkOnOff[i].isSelected()) {
 						int vol = Integer.parseInt(txtVolume[i].getText());
@@ -566,7 +573,7 @@ public class CtlMU50Player {
 		cmbInDevice.getSelectionModel().select(defaultIn);
 		
 		btnOpenDevice.setDisable(false);
-		btnCloseDevice.setDisable(false);
+		btnCloseDevice.setDisable(true);
 	}
 	@FXML
 	public void openDevice(){
@@ -630,7 +637,7 @@ public class CtlMU50Player {
 		txtSplitpoint.setText(String.valueOf(splitpoint));
 		int a = splitpoint / 12;
 		int b = splitpoint % 12;
-		lblSplitpoint.setText(mapSplitpoint.get(String.valueOf(b)) + String.valueOf(a));
+		lblSplitpoint.setText(mapNoteNames.get(String.valueOf(b)) + String.valueOf(a));
 	}
 	public int getSplitpoint(){
 		return Integer.parseInt(txtSplitpoint.getText());
@@ -825,7 +832,7 @@ public class CtlMU50Player {
 	@FXML
 	public void btnSeqStartClicked(){
 		txtComment.setText("start");
-		seq.play();
+		seq.play(chkLoopOn.isSelected(), Integer.parseInt(txtLoopCount.getText()));
 	}
 	@FXML
 	public void btnSeqPauseClicked(){

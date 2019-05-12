@@ -32,7 +32,7 @@ public class JavaMidiSequence {
       for(int i=1; i<=8; i++){
 	      // プログラムチェンジイベント生成
 	      ShortMessage progChange = new ShortMessage();
-	      progChange.setMessage(ShortMessage.PROGRAM_CHANGE, i-1, ctl.getVoiceNo(i), 0);
+	      progChange.setMessage(ShortMessage.PROGRAM_CHANGE, i, ctl.getVoiceNo(i)-1, 0);
 	      MidiEvent progChangeEvent = new MidiEvent(progChange, 0L);
     	  sequence.getTracks()[currentTrackNo].add(progChangeEvent);
       }
@@ -105,13 +105,21 @@ public class JavaMidiSequence {
   }
   /**
    * シーケンスを再生
+ * @param loopCount 
    */
-  public void play() {
-    try {
-      sequencer.start();
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
+  public void play(boolean isLoopOn, int loopCount) {
+	  try {
+		  if(isLoopOn){
+			  sequencer.setLoopStartPoint(0L);
+			  sequencer.setLoopEndPoint(sequence.getTickLength());
+			  sequencer.setLoopCount(loopCount-1);
+		  } else {
+			  sequencer.setLoopCount(0);
+		  }
+		  sequencer.start();
+	  } catch(Exception e) {
+		  e.printStackTrace();
+	  }
   }
 
   /**
@@ -119,11 +127,11 @@ public class JavaMidiSequence {
    */
   public long pause() {
 	  long pos = 0L;
-    if(sequencer.isRunning()) {
-      sequencer.stop();
-      pos = sequencer.getTickPosition();
-    }
-    return pos;
+	  if(sequencer.isRunning()) {
+		  sequencer.stop();
+		  pos = sequencer.getTickPosition();
+	  }
+	  return pos;
   }
 
   /**
@@ -131,47 +139,47 @@ public class JavaMidiSequence {
    */
   public long stop() {
 	  long pos = 0L;
-    if(sequencer.isRunning()) {
-      sequencer.stop();
-      pos = sequencer.getTickPosition();
-    }
-    sequencer.setTickPosition(0);
-    return pos;
+	  if(sequencer.isRunning()) {
+		  sequencer.stop();
+		  pos = sequencer.getTickPosition();
+	  }
+	  sequencer.setTickPosition(0);
+	  return pos;
   }
 
   /**
    * シーケンサを閉じる
    */
   public void close() {
-    sequencer.close();
+	  sequencer.close();
   }
-  
+
   public boolean isRecording(){
 	  return isRecording;
   }
   public void startRec(){
-    try {
-//		sequence  = new Sequence(Sequence.PPQ, 480);
-        sequence.createTrack();
-        sequencer.setSequence(sequence);
-        currentTrackNo = sequence.getTracks().length-1;
-        System.out.println("new track no:" + currentTrackNo);
-//        sequencer.recordEnable(sequence.getTracks()[0], -1);
-//        sequencer.startRecording();
-        
-        
-        isRecording = true;
-        startRecTime = System.currentTimeMillis();
-        sequencer.setTickPosition(0L);
-        sequencer.start();
-        System.out.println("start rec at:" + startRecTime);
-        
-	} catch (InvalidMidiDataException   e) {
-		// TODO 自動生成された catch ブロック
-		e.printStackTrace();
-	}
+	  try {
+		  //		sequence  = new Sequence(Sequence.PPQ, 480);
+		  sequence.createTrack();
+		  sequencer.setSequence(sequence);
+		  currentTrackNo = sequence.getTracks().length-1;
+		  System.out.println("new track no:" + currentTrackNo);
+		  //        sequencer.recordEnable(sequence.getTracks()[0], -1);
+		  //        sequencer.startRecording();
+
+
+		  isRecording = true;
+		  startRecTime = System.currentTimeMillis();
+		  sequencer.setTickPosition(0L);
+		  sequencer.start();
+		  System.out.println("start rec at:" + startRecTime);
+
+	  } catch (InvalidMidiDataException   e) {
+		  // TODO 自動生成された catch ブロック
+		  e.printStackTrace();
+	  }
   }
-  
+
   public void stopRec(){
 //	  sequencer.stopRecording();
 	  isRecording = false;

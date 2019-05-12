@@ -102,6 +102,8 @@
                         <ComboBox fx:id="cmbMidiFiles" editable="true" layoutX="100.0" layoutY="314.0" prefHeight="23.0" prefWidth="195.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="17" />
                         <Button fx:id="btnReadMidFile" layoutX="112.0" layoutY="344.0" mnemonicParsing="false" onAction="#onBtnReadMidFileClicked" text="Read" GridPane.columnIndex="5" GridPane.rowIndex="17" />
                         <Button fx:id="btnWriteMidFile" layoutX="112.0" layoutY="374.0" mnemonicParsing="false" onAction="#onBtnWriteMidFileClicked" text="Write" GridPane.columnIndex="6" GridPane.rowIndex="17" />
+                        <CheckBox fx:id="chkLoopOn" mnemonicParsing="false" text="Loop*" GridPane.rowIndex="17" />
+                        <TextField fx:id="txtLoopCount" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="30.0" text="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="17" />
 				   </children>
 				</GridPane>
                </children>
