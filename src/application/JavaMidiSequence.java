@@ -10,35 +10,47 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Transmitter;
 
 public class JavaMidiSequence {
   private Sequencer sequencer;
   private Sequence  sequence;
   private boolean isRecording;
   private long startRecTime;
+  private int currentTrackNo;
 
-  public JavaMidiSequence() {
+  public JavaMidiSequence(CtlMU50Player ctl) {
     try {
     	isRecording = false;
       sequencer = MidiSystem.getSequencer();
       sequencer.open();
       sequence  = new Sequence(Sequence.PPQ, 480);
       sequence.createTrack();
-      int chNo = 1;
-      int prgNo = 19;
-      int length = 480;
-      int duration = 480;
-      int velocity = 90;
-      addNote(chNo, prgNo, 60, length*0, duration, velocity);
-      addNote(chNo, prgNo, 62, length*1, duration, velocity);
-      addNote(chNo, prgNo, 64, length*2, duration, velocity);
-      addNote(chNo, prgNo, 65, length*3, duration, velocity);
-      addNote(chNo, prgNo, 67, length*4, duration, velocity);
-
-      addNote(chNo, prgNo, 67, length*5, duration, 0);
-      addNote(chNo, prgNo, 60, length*6, duration*4, velocity);
-      addNote(chNo, prgNo, 64, length*6, duration*4, velocity);
-      addNote(chNo, prgNo, 67, length*6, duration*4, velocity);
+      currentTrackNo = sequence.getTracks().length-1;
+      System.out.println("current track no:" + currentTrackNo);
+      
+      for(int i=1; i<=8; i++){
+	      // プログラムチェンジイベント生成
+	      ShortMessage progChange = new ShortMessage();
+	      progChange.setMessage(ShortMessage.PROGRAM_CHANGE, i-1, ctl.getVoiceNo(i), 0);
+	      MidiEvent progChangeEvent = new MidiEvent(progChange, 0L);
+    	  sequence.getTracks()[currentTrackNo].add(progChangeEvent);
+      }
+//      int chNo = 1;
+//      int prgNo = 19;
+//      int length = 480;
+//      int duration = 480;
+//      int velocity = 90;
+//      addNote(chNo, prgNo, 60, length*0, duration, velocity);
+//      addNote(chNo, prgNo, 62, length*1, duration, velocity);
+//      addNote(chNo, prgNo, 64, length*2, duration, velocity);
+//      addNote(chNo, prgNo, 65, length*3, duration, velocity);
+//      addNote(chNo, prgNo, 67, length*4, duration, velocity);
+//
+//      addNote(chNo, prgNo, 67, length*5, duration, 0);
+//      addNote(chNo, prgNo, 60, length*6, duration*4, velocity);
+//      addNote(chNo, prgNo, 64, length*6, duration*4, velocity);
+//      addNote(chNo, prgNo, 67, length*6, duration*4, velocity);
       sequencer.setSequence(sequence);
     } catch(Exception e) {
       e.printStackTrace();
@@ -76,7 +88,7 @@ public class JavaMidiSequence {
 
   public void writeMidiFile(String filename){
 	  try {
-		  MidiSystem.write(sequence, 0,new File(filename));
+		  MidiSystem.write(sequence, 1, new File(filename));
 	  } catch (IOException e) {
 		  // TODO 自動生成された catch ブロック
 		  e.printStackTrace();
@@ -139,14 +151,19 @@ public class JavaMidiSequence {
   }
   public void startRec(){
     try {
-		sequence  = new Sequence(Sequence.PPQ, 480);
+//		sequence  = new Sequence(Sequence.PPQ, 480);
         sequence.createTrack();
         sequencer.setSequence(sequence);
+        currentTrackNo = sequence.getTracks().length-1;
+        System.out.println("new track no:" + currentTrackNo);
 //        sequencer.recordEnable(sequence.getTracks()[0], -1);
 //        sequencer.startRecording();
         
+        
         isRecording = true;
         startRecTime = System.currentTimeMillis();
+        sequencer.setTickPosition(0L);
+        sequencer.start();
         System.out.println("start rec at:" + startRecTime);
         
 	} catch (InvalidMidiDataException   e) {
@@ -155,24 +172,32 @@ public class JavaMidiSequence {
 	}
   }
   
+  public void stopRec(){
+//	  sequencer.stopRecording();
+	  isRecording = false;
+	  sequencer.stop();
+	  
+	  sequencer.setTickPosition(0L);
+	  System.out.println("stop rec at:" + System.currentTimeMillis());
+  }  
   public void addNoteOnRealtime(int channel, int noteNumber, int velocity, int progNumber){
 
 	  try {
 		  long position = System.currentTimeMillis()-startRecTime;
 		  System.out.println("position:" + position);
 
-	      // プログラムチェンジイベント生成
-	      ShortMessage progChange = new ShortMessage();
-	      progChange.setMessage(ShortMessage.PROGRAM_CHANGE, channel - 1, progNumber - 1, 0);
-	      MidiEvent progChangeEvent = new MidiEvent(progChange, position-10);
+//	      // プログラムチェンジイベント生成
+//	      ShortMessage progChange = new ShortMessage();
+//	      progChange.setMessage(ShortMessage.PROGRAM_CHANGE, channel - 1, progNumber - 1, 0);
+//	      MidiEvent progChangeEvent = new MidiEvent(progChange, position-10);
 
 	      // ノートオンイベント生成
 		  ShortMessage noteOn = new ShortMessage();
-		  noteOn.setMessage(ShortMessage.NOTE_ON, channel - 1, noteNumber, velocity);
+		  noteOn.setMessage(ShortMessage.NOTE_ON, channel, noteNumber, velocity);
 		  MidiEvent noteOnEvent = new MidiEvent(noteOn, position);
 
-	      sequence.getTracks()[0].add(progChangeEvent);
-	      sequence.getTracks()[0].add(noteOnEvent);
+//	      sequence.getTracks()[currentTrackNo].add(progChangeEvent);
+	      sequence.getTracks()[currentTrackNo].add(noteOnEvent);
 
 	  } catch (InvalidMidiDataException e) {
 		  e.printStackTrace();
@@ -187,20 +212,25 @@ public class JavaMidiSequence {
 
 		  // ノートオフイベント生成
 		  ShortMessage noteOff = new ShortMessage();
-		  noteOff.setMessage(ShortMessage.NOTE_OFF, channel - 1, noteNumber, 0);
+		  noteOff.setMessage(ShortMessage.NOTE_OFF, channel, noteNumber, 0);
 		  MidiEvent noteOffEvent = new MidiEvent(noteOff, position);
 
-	      sequence.getTracks()[0].add(noteOffEvent);
+	      sequence.getTracks()[currentTrackNo].add(noteOffEvent);
 
 	  } catch (InvalidMidiDataException e) {
 		  e.printStackTrace();
 	  }
 
   }
+
   
-  public void stopRec(){
-//	  sequencer.stopRecording();
-	  isRecording = false;
-	  System.out.println("stop rec at:" + System.currentTimeMillis());
+  public Transmitter getTransmitter(){
+	  try {
+		  return sequencer.getTransmitter();
+	  } catch (MidiUnavailableException e) {
+		  // TODO 自動生成された catch ブロック
+		  e.printStackTrace();
+		  return null;
+	  }
   }
 }

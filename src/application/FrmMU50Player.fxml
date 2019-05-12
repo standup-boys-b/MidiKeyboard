@@ -39,10 +39,10 @@
 				      <ColumnConstraints maxWidth="210.0" minWidth="0.0" prefWidth="35.0" />
                         <ColumnConstraints maxWidth="260.0" minWidth="10.0" prefWidth="31.0" />
 				      <ColumnConstraints maxWidth="260.0" minWidth="10.0" prefWidth="107.0" />
-				      <ColumnConstraints maxWidth="260.0" minWidth="-Infinity" prefWidth="52.0" />
-				      <ColumnConstraints maxWidth="192.0" minWidth="19.0" prefWidth="50.0" />
-				      <ColumnConstraints maxWidth="145.0" minWidth="-Infinity" prefWidth="48.0" />
-				      <ColumnConstraints maxWidth="145.0" minWidth="-Infinity" prefWidth="53.0" />
+				      <ColumnConstraints maxWidth="260.0" minWidth="-Infinity" prefWidth="46.0" />
+				      <ColumnConstraints maxWidth="192.0" minWidth="19.0" prefWidth="46.0" />
+				      <ColumnConstraints maxWidth="145.0" minWidth="-Infinity" prefWidth="34.0" />
+				      <ColumnConstraints maxWidth="145.0" minWidth="-Infinity" prefWidth="77.0" />
 				   </columnConstraints>
 				   <children>
 				      <Button fx:id="btnOK" mnemonicParsing="false" onAction="#onBtnOKClicked" text="Send SysEx" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="9" />

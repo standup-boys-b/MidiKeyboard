@@ -109,6 +109,37 @@ public class MapVoiceList {
 		
 		return m;
 	}
+	public LinkedHashMap<String, String> getXGDrumNames(int PCno){
+		String strPCno = "  1";
+		LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
+
+		try {
+			xpe1 = xp.compile("/ModuleData/DrumSetList/Map[attribute::Name=\"XG Drum\"]/PC[attribute::PC=\"" 
+			     + strPCno + "\"]/Bank/Tone");
+			NodeList nlSelectedPCNodes = (NodeList)xpe1.evaluate(dc, XPathConstants.NODESET);
+ 			//各ノードの属性(attr)を取得
+ 			NamedNodeMap nnmAttribs;
+ 			Node nd;
+			String drumName;
+			int drumKey = 0;
+ 			for(int i=0; i< nlSelectedPCNodes.getLength(); i++){
+ 				nd = nlSelectedPCNodes.item(i);
+ 				if(nd.getNodeName() == "Tone") {
+ 					nnmAttribs = nd.getAttributes();
+ 					drumKey = Integer.parseInt(nnmAttribs.getNamedItem("Key").getTextContent().trim());
+					drumName = nnmAttribs.getNamedItem("Name").getTextContent().trim();
+ 					m.put(String.valueOf(drumKey), drumName);
+ 					System.out.println("drumset:" + drumKey + " " + drumName);
+ 				}
+ 			}
+			
+		} catch (XPathExpressionException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		
+		return m;
+	}
 	public int getPrevUseVoiceNo(int voiceNo){
 		while(mapVoiceList.get(String.valueOf(--voiceNo)).isMarked || voiceNo==1){
 //			voiceNo--;

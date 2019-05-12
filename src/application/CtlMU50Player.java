@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.sound.midi.Receiver;
+import javax.sound.midi.Transmitter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -108,6 +110,7 @@ public class CtlMU50Player {
 	private int tmpNoteNo;
 	HashMap<String, String> mapPressedChar;
 	HashMap<String, String> mapSplitpoint;
+	LinkedHashMap<String, String> mapDrumNames;
 	
 	private JavaMidiSequence seq;
 	private SysExManager sxm;
@@ -167,6 +170,9 @@ public class CtlMU50Player {
 	public int getVolume(int chno){
 		return Integer.parseInt(txtVolume[chno].getText());
 	}
+	public int getVoiceNo(int chno){
+		return Integer.parseInt(txtVoice[chno].getText());
+	}
 	public boolean isChannelOn(int chno){
 		return this.chkOnOff[chno].isSelected();
 	}
@@ -191,15 +197,19 @@ public class CtlMU50Player {
 				for(int i=1; i<=4; i++){
 					tmpNoteNo = noteNo + Integer.parseInt(txtShift[i].getText())
 					           + 12*(Integer.parseInt(lblUpperOctave.getText())-2);
-					lblNoteNo[i].setText(String.valueOf(tmpNoteNo));
+					if(i == 4){
+						lblNoteNo[i].setText(mapDrumNames.get(String.valueOf(tmpNoteNo)));
+					} else {
+						lblNoteNo[i].setText(String.valueOf(tmpNoteNo));
+					}
 					if (0 < tmpNoteNo && tmpNoteNo < 129 && chkOnOff[i].isSelected()) {
 						int vol = Integer.parseInt(txtVolume[i].getText());
 						int voice = Integer.parseInt(txtVoice[i].getText());
 						mp.playNote(tmpNoteNo, i, vol);
-						if (seq != null && seq.isRecording()) {
-							System.out.println("1-4 addnoteon");
-							seq.addNoteOnRealtime(i, tmpNoteNo, vol, voice);
-						}
+//						if (seq != null && seq.isRecording()) {
+//							System.out.println("1-4 addnoteon");
+//							seq.addNoteOnRealtime(i, tmpNoteNo, vol, voice);
+//						}
 					}
 				}
 			}else{
@@ -207,15 +217,19 @@ public class CtlMU50Player {
 				for(int i=5; i<=8; i++){
 					tmpNoteNo = noteNo + Integer.parseInt(txtShift[i].getText())
 					           + 12*(Integer.parseInt(lblLowerOctave.getText())-5);
-					lblNoteNo[i].setText(String.valueOf(tmpNoteNo));
+					if(i == 8){
+						lblNoteNo[i].setText(mapDrumNames.get(String.valueOf(tmpNoteNo)));
+					} else {
+						lblNoteNo[i].setText(String.valueOf(tmpNoteNo));
+					}
 					if (0 < tmpNoteNo && tmpNoteNo < 129 && chkOnOff[i].isSelected()) {
 						int vol = Integer.parseInt(txtVolume[i].getText());
 						int voice = Integer.parseInt(txtVoice[i].getText());
 						mp.playNote(tmpNoteNo, i, vol);
-						if (seq != null && seq.isRecording()) {
-							System.out.println("5-8 addnoteon");
-							seq.addNoteOnRealtime(i, tmpNoteNo, vol, voice);
-						}
+//						if (seq != null && seq.isRecording()) {
+//							System.out.println("5-8 addnoteon");
+//							seq.addNoteOnRealtime(i, tmpNoteNo, vol, voice);
+//						}
 					}
 				}
 			}
@@ -385,6 +399,7 @@ public class CtlMU50Player {
 	public void initialize(){
 		mapK = new MapKeyNote();
 		mapV = new MapVoiceList();
+		mapDrumNames = mapV.getXGDrumNames(0);
 		mapPressedChar = new HashMap<String, String>();
 		sxm = new SysExManager();
 		initSplitpoint();
@@ -478,6 +493,9 @@ public class CtlMU50Player {
 			txtShift[i].setPrefWidth(20);
 			
 			lblVoice[i] = new Label(mapV.getVoiceName(1));
+			if(i==4 || i==8){
+				lblVoice[i].setText("Drum Set");
+			}
 			lblVoice[i].setId(String.valueOf(i));
 			lblVoice[i].setPrefWidth(80);
 			chkOnOff[i] = new CheckBox();
@@ -555,6 +573,15 @@ public class CtlMU50Player {
 		if (mp != null){
 			mp.openDevice(this.cmbOutDevice.getSelectionModel().getSelectedIndex(),
 					this.cmbInDevice.getSelectionModel().getSelectedIndex());
+
+			//seqÇóLå¯Ç»synÇ…ê⁄ë±
+			if (seq != null) {
+				Transmitter tran = seq.getTransmitter();
+				if (tran != null) {
+					tran.setReceiver(mp.defRecv);
+				}
+			}
+
 		}
 		cmbOutDevice.setDisable(true);
 		cmbInDevice.setDisable(true);
@@ -580,11 +607,11 @@ public class CtlMU50Player {
 			txtShift[i].setDisable(editable);
 			txtVolume[i].setDisable(editable);
 		}
-		btnOpenDevice.setDisable(editable);
-		btnCloseDevice.setDisable(editable);
+//		btnOpenDevice.setDisable(editable);
+//		btnCloseDevice.setDisable(editable);
 		btnOK.setDisable(editable);
 		cmbFilename.setDisable(editable);
-		txtComment.setDisable(editable);
+//		txtComment.setDisable(editable);
 		txtReserve.setDisable(editable);
 		txtSplitpoint.setDisable(editable);
 	}
@@ -792,7 +819,8 @@ public class CtlMU50Player {
 	@FXML
 	public void btnSeqInitClicked(){
 		txtComment.setText("init");
-		seq = new JavaMidiSequence();
+		seq = new JavaMidiSequence(this);
+		if(mp != null) mp.setSequencer(seq);
 	}
 	@FXML
 	public void btnSeqStartClicked(){

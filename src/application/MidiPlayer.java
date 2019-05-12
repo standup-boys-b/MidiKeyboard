@@ -35,6 +35,7 @@ public class MidiPlayer {
 	JCheckBox[] chkMute;
 	File file;
 	CtlMU50Player sc;
+	JavaMidiSequence seq;
 	private ArrayList<MidiDevice> devices;
 	
 	public MidiPlayer(boolean isUpperKey, JCheckBox[] chkMute, CtlMU50Player sc) {
@@ -88,7 +89,15 @@ public class MidiPlayer {
 	        // devInputの準備
 	        // USBケーブルのinにつないだデバイス(CasioTone)に対して、Receiver(キー割り振り役)を割り当て
 			if (devInput != null) {
-				trans = devInput.getTransmitter();
+				trans = devInput.getTransmitter(); //casiotoneからtranをget
+				//casiotoneのtranをcasiotoneのrecvにつないでいる？
+				//でも結局、orgRecvはrecvそのものではなく、ただの入力処理クラスで、内部でmpのdefRecvに対して
+				//noteonを送信しているから、MU50なりGervillなり適切なsynが発音しているのか。
+				//casiotoneのtranをdefRecvに直接つなぐと、おそらくcasiotoneのjam信号が直接defRecvに行く。
+				//no,no,orgRecvとは、自作の「CasioToneReceiver」クラス。ここにつなぐことで、jam信号のサニタイズが
+				//行われ、うまく発音する。ただ、つなぎ方が変になっているだけ（CasioToneReceiverクラス内で、mpを呼び出して、
+				//mp内でdefRecvにnoteonを飛ばしている）
+				//レイヤーやスプリットを実現したり、輻輳解消したりする以上、この変な接続は致し方ないか。
 				trans.setReceiver(orgRecv);
 //				trans.setReceiver(defRecv);
 				System.out.println(trans.toString());
@@ -207,7 +216,7 @@ public class MidiPlayer {
 			e.printStackTrace();			
 		}
 	}
-public void playNote(int noteNo, int chno){
+	public void playNote(int noteNo, int chno){
 		if (sc.isChannelOn(chno)){
 			playNote(noteNo + sc.getNoteShift(chno), chno, sc.getVolume(chno));
 		}
@@ -220,9 +229,16 @@ public void playNote(int noteNo, int chno){
 	}
 	public void playNote(int noteNo, int channelNo,int volume) {
 		try {
+			int tmpChNo = channelNo;
 	        ShortMessage noteOn = new ShortMessage();
-            noteOn.setMessage(ShortMessage.NOTE_ON, channelNo, noteNo, volume);
+	        if(channelNo == 4 || channelNo == 8){
+	        	tmpChNo = 9;
+	        }
+            noteOn.setMessage(ShortMessage.NOTE_ON, tmpChNo, noteNo, volume);
             defRecv.send(noteOn, 1L);
+            if(seq != null && seq.isRecording()){
+            	seq.addNoteOnRealtime(tmpChNo, noteNo, volume, 19);
+            }
 		} catch (Exception ex) {
         	ex.printStackTrace();
         }
@@ -230,9 +246,16 @@ public void playNote(int noteNo, int chno){
 
 	public void stopNote(int noteNo, int channelNo,int volume) {
 		try {
+			int tmpChNo = channelNo;
 			ShortMessage noteOff = new ShortMessage();
-            noteOff.setMessage(ShortMessage.NOTE_OFF, channelNo, noteNo, volume);
+			if(channelNo == 4 || channelNo == 8){
+	        	tmpChNo = 9;
+	        }
+            noteOff.setMessage(ShortMessage.NOTE_OFF, tmpChNo, noteNo, volume);
             defRecv.send(noteOff, 1L);
+            if(seq != null && seq.isRecording()){
+            	seq.addNoteOffRealtime(tmpChNo, noteNo, volume);
+            }
         } catch (Exception ex) {
         	ex.printStackTrace();
         }
@@ -329,4 +352,8 @@ public void playNote(int noteNo, int chno){
             System.out.println("");
         }
     }
+	
+	public void setSequencer(JavaMidiSequence seq){
+		this.seq = seq;
+	}
 }
