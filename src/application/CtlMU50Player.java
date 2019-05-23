@@ -50,6 +50,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
 public class CtlMU50Player {
+	@FXML private Button btnConn;
+	
 	@FXML private Button btnSeqInit;
 	@FXML private Button btnSeqStart;
 	@FXML private Button btnSeqPause;
@@ -621,6 +623,15 @@ public class CtlMU50Player {
 //		txtComment.setDisable(editable);
 		txtReserve.setDisable(editable);
 		txtSplitpoint.setDisable(editable);
+	}
+	
+	@FXML
+	public void btnConnClicked(){
+		Receiver r = mp.defRecv;
+		System.out.println("recv is " + r.getClass().getName());
+		Transmitter t = seq.getTransmitter();
+		System.out.println("tran is " + t.getClass().getName());
+		t.setReceiver(r);
 	}
 	
 	@FXML
