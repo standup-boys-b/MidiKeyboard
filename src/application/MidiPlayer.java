@@ -26,8 +26,9 @@ public class MidiPlayer {
 	Receiver defRecv;
 	Receiver orgRecv;
 	Transmitter trans;
-	MidiDevice dev;
-	MidiDevice devInput;
+	MidiDevice devOut;
+	MidiDevice devIn;
+	MidiDevice devSeq;
 	HexDumpEncoder enc;
 	int volume[] = {90,0,0,0,90,0,0,0};
 	int shift[] = {0,0,0,0,0,0,0,0};
@@ -64,32 +65,32 @@ public class MidiPlayer {
 				Synthesizer synth = new SoftSynthesizer();
 				synth.open();    // これをやらないとエラーになる
 				synth.loadAllInstruments(bank);    // openしてからじゃないと読み込んでくれない
-				dev = synth;
+				devOut = synth;
 	        } else {
 	        	//--MidiDeviceを使用する場合--------------------------------------------------------------
 				System.out.println("===Preparing MidiDevice!!===");
 		        if (devices.size() > 4) {
-		        	dev = devices.get(4); //4,5 しか使えない？1はエラー
-		        	devInput = devices.get(1); 
+		        	devOut = devices.get(4); //4,5 しか使えない？1はエラー
+		        	devIn = devices.get(1); 
 		        }else{
-		        	dev = devices.get(0); //4,5 しか使えない？1はエラー
+		        	devOut = devices.get(0); //4,5 しか使えない？1はエラー
 		        }
-		        dev.open();
-		        if (devInput != null) {devInput.open();}
+		        devOut.open();
+		        if (devIn != null) {devIn.open();}
 	        }
 
 	        // receiverの準備
-	        if (dev == null){
+	        if (devOut == null){
 				defRecv = MidiSystem.getReceiver();
 				System.out.println("Dev was null!");
 			}else{
-				defRecv = dev.getReceiver();
+				defRecv = devOut.getReceiver();
 				orgRecv = new CasioToneReceiver(this);
 			}
 	        // devInputの準備
 	        // USBケーブルのinにつないだデバイス(CasioTone)に対して、Receiver(キー割り振り役)を割り当て
-			if (devInput != null) {
-				trans = devInput.getTransmitter(); //casiotoneからtranをget
+			if (devIn != null) {
+				trans = devIn.getTransmitter(); //casiotoneからtranをget
 				//casiotoneのtranをcasiotoneのrecvにつないでいる？
 				//でも結局、orgRecvはrecvそのものではなく、ただの入力処理クラスで、内部でmpのdefRecvに対して
 				//noteonを送信しているから、MU50なりGervillなり適切なsynが発音しているのか。
@@ -134,21 +135,25 @@ public class MidiPlayer {
 		try {
             if (defRecv != null) defRecv.close();
             if (trans != null) trans.close();
-            if (dev != null) dev.close();
-            if (devInput != null) devInput.close();
-            System.out.println("Device[" + dev.getDeviceInfo().getName() + "] is open? : " + dev.isOpen());
-            System.out.println("Device[" + devInput.getDeviceInfo().getName() + "] is open? : " + devInput.isOpen());
+            if (devOut != null) devOut.close();
+            if (devIn != null) devIn.close();
+            if (devSeq != null) devSeq.close();
+            System.out.println("Device[" + devOut.getDeviceInfo().getName() + "] is open? : " + devOut.isOpen());
+            System.out.println("Device[" + devIn.getDeviceInfo().getName() + "] is open? : " + devIn.isOpen());
+            System.out.println("Device[" + devSeq.getDeviceInfo().getName() + "] is open? : " + devSeq.isOpen());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	public void openDevice(int devOutNo, int devInNo){
+	public void openDevice(int devOutNo, int devInNo, int devSeqNo){
 		try {
-			if (dev != null) dev.close();
-			dev = devices.get(devOutNo);
-			if (devInput != null) devInput.close();
-			devInput = devices.get(devInNo);
+			if (devOut != null) devOut.close();
+			devOut = devices.get(devOutNo);
+			if (devIn != null) devIn.close();
+			devIn = devices.get(devInNo);
+			if (devSeq != null) devSeq.close();
+			devSeq = devices.get(devSeqNo);
 			openDevice();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -156,18 +161,25 @@ public class MidiPlayer {
 	}
 	public void openDevice() {
 		try {
-            if (dev != null && !dev.isOpen()){
-            	dev.open();
-                defRecv = dev.getReceiver();
+            if (devOut != null && !devOut.isOpen()){
+            	devOut.open();
+                defRecv = devOut.getReceiver();
             }
-            if (devInput != null && !devInput.isOpen()){
-            	devInput.open();
-                trans = devInput.getTransmitter();
+            if (devIn != null && !devIn.isOpen()){
+            	devIn.open();
+                trans = devIn.getTransmitter();
                 trans.setReceiver(orgRecv);
 //              trans.setReceiver(defRecv);
             }
-            System.out.println("Device[" + dev.getDeviceInfo().getName() + "] is open? : " + dev.isOpen());
-            System.out.println("Device[" + devInput.getDeviceInfo().getName() + "] is open? : " + devInput.isOpen());
+            if (devSeq != null && !devSeq.isOpen()){
+            	devSeq.open();
+                trans = devSeq.getTransmitter();
+                trans.setReceiver(orgRecv);
+//              trans.setReceiver(defRecv);
+            }
+            System.out.println("Device[" + devOut.getDeviceInfo().getName() + "] is open? : " + devOut.isOpen());
+            System.out.println("Device[" + devIn.getDeviceInfo().getName() + "] is open? : " + devIn.isOpen());
+            System.out.println("Device[" + devSeq.getDeviceInfo().getName() + "] is open? : " + devSeq.isOpen());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -231,9 +243,9 @@ public class MidiPlayer {
 		try {
 			int tmpChNo = channelNo;
 	        ShortMessage noteOn = new ShortMessage();
-	        if(channelNo == 4 || channelNo == 8){
-	        	tmpChNo = 9;
-	        }
+//	        if(channelNo == 4 || channelNo == 8){
+//	        	tmpChNo = 9;
+//	        }
             noteOn.setMessage(ShortMessage.NOTE_ON, tmpChNo, noteNo, volume);
             defRecv.send(noteOn, 1L);
             if(seq != null && seq.isRecording()){
@@ -248,9 +260,9 @@ public class MidiPlayer {
 		try {
 			int tmpChNo = channelNo;
 			ShortMessage noteOff = new ShortMessage();
-			if(channelNo == 4 || channelNo == 8){
-	        	tmpChNo = 9;
-	        }
+//			if(channelNo == 4 || channelNo == 8){
+//	        	tmpChNo = 9;
+//	        }
             noteOff.setMessage(ShortMessage.NOTE_OFF, tmpChNo, noteNo, volume);
             defRecv.send(noteOff, 1L);
             if(seq != null && seq.isRecording()){
@@ -264,7 +276,7 @@ public class MidiPlayer {
 	public void allNoteOff() {
 		try {
 			ShortMessage msg = new ShortMessage();
-	        for(int ch=0; ch<8; ch++){
+	        for(int ch=0; ch<9; ch++){
 	            msg.setMessage(ShortMessage.CONTROL_CHANGE, ch, 0x78, 0x00);
 	            defRecv.send(msg, 1L);
 	        }
@@ -285,7 +297,7 @@ public class MidiPlayer {
 		
 //		Receiver receiver;
 		try {
-			if (dev == null){
+			if (devOut == null){
 //	    		receiver = MidiSystem.getReceiver();
 	    		System.out.println("Dev was null!");
 	    	}else{

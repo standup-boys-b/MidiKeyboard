@@ -23,10 +23,12 @@
 				      <RowConstraints minHeight="10.0" prefHeight="30.0" />
 				      <RowConstraints minHeight="10.0" prefHeight="30.0" />
 				      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
 				      <RowConstraints minHeight="10.0" prefHeight="30.0" />
 				      <RowConstraints minHeight="10.0" prefHeight="30.0" />
 				      <RowConstraints minHeight="10.0" prefHeight="30.0" />
 				      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -45,7 +47,7 @@
 				      <ColumnConstraints maxWidth="145.0" minWidth="-Infinity" prefWidth="77.0" />
 				   </columnConstraints>
 				   <children>
-				      <Button fx:id="btnOK" mnemonicParsing="false" onAction="#onBtnOKClicked" text="Send SysEx" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+				      <Button fx:id="btnOK" mnemonicParsing="false" onAction="#onBtnOKClicked" text="Send SysEx" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="10" />
 				      <Label prefHeight="15.0" prefWidth="52.0" text="Channel" GridPane.columnSpan="2" GridPane.halignment="RIGHT" />
 				      <Label text="v No" GridPane.columnIndex="2" />
 				      <Label prefHeight="15.0" prefWidth="48.0" text="Volume" GridPane.columnIndex="5" />
@@ -61,49 +63,55 @@
 				      <Label text="8" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 				      <Label text="Upper (Left)" GridPane.rowIndex="1" />
 				      <Label text="Lower (Right)" GridPane.rowIndex="5" />
-				      <Label text="test area -&gt;" GridPane.rowIndex="9" />
-				      <Label fx:id="lblTest" prefHeight="15.0" prefWidth="196.0" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" />
-				      <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#onLoadClicked" text="Load" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="11" />
-				      <Label text="Setting name:" GridPane.rowIndex="10" />
-				      <ComboBox fx:id="cmbFilename" editable="true" prefHeight="23.0" prefWidth="195.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="10" />
-				      <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSaveClicked" text="Save" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="12" />
-				      <Label text="Comment:" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="9" />
-				      <TextArea fx:id="txtComment" prefHeight="200.0" prefWidth="200.0" text="F0 43 10 4C 00 00 7E 00 F7" wrapText="true" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="10" />
+				      <Label text="test area -&gt;" GridPane.rowIndex="10" />
+				      <Label fx:id="lblTest" prefHeight="15.0" prefWidth="196.0" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
+				      <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#onLoadClicked" text="Load" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="12" />
+				      <Label text="Setting name:" GridPane.rowIndex="11" />
+				      <ComboBox fx:id="cmbFilename" editable="true" prefHeight="23.0" prefWidth="195.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="11" />
+				      <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSaveClicked" text="Save" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="13" />
+				      <Label text="Comment:" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="10" />
+				      <TextArea fx:id="txtComment" prefHeight="200.0" prefWidth="200.0" text="F0 43 10 4C 00 00 7E 00 F7" wrapText="true" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="11" />
 				      <Label text="↓oct." GridPane.rowIndex="2" />
 				      <Label text="↓oct." GridPane.rowIndex="6" />
 				      <Label fx:id="lblUpperOctave" text="2" GridPane.rowIndex="3" />
 				      <Label fx:id="lblLowerOctave" text="5" GridPane.rowIndex="7" />
-				      <Button fx:id="btnOpenDevice" disable="true" mnemonicParsing="false" onAction="#openDevice" text="Open Device" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="14" />
-				      <Button fx:id="btnCloseDevice" disable="true" mnemonicParsing="false" onAction="#closeDevice" text="Close Device" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="15" />
-				      <Label text="[Esc]Toggle Edit" GridPane.rowIndex="11" />
+				      <Button fx:id="btnOpenDevice" disable="true" mnemonicParsing="false" onAction="#openDevice" text="Open Device" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="16" />
+				      <Button fx:id="btnCloseDevice" disable="true" mnemonicParsing="false" onAction="#closeDevice" text="Close Device" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="17" />
+				      <Label text="[Esc]Toggle Edit" GridPane.rowIndex="12" />
 				      <Label text="noteNo" GridPane.columnIndex="8" />
-                        <TextArea fx:id="txtReserve" prefHeight="58.0" prefWidth="203.0" text="F0 43 10 4C 09 01 00 02 F7&#10;F0 43 10 4C 09 02 00 02 F7&#10;F0 43 10 4C 09 03 00 02 F7" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="11" GridPane.rowSpan="2" />
-                        <Label text="Split point:" GridPane.rowIndex="13" />
-                        <TextField fx:id="txtSplitpoint" alignment="CENTER_RIGHT" onKeyReleased="#changeSplitpoint" prefHeight="23.0" prefWidth="37.0" text="64" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+                        <TextArea fx:id="txtReserve" prefHeight="58.0" prefWidth="203.0" text="F0 43 10 4C 09 01 00 02 F7&#10;F0 43 10 4C 09 02 00 02 F7&#10;F0 43 10 4C 09 03 00 02 F7" GridPane.columnIndex="5" GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="2" />
+                        <Label text="Split point:" GridPane.rowIndex="14" />
+                        <TextField fx:id="txtSplitpoint" alignment="CENTER_RIGHT" onKeyReleased="#changeSplitpoint" prefHeight="23.0" prefWidth="37.0" text="64" GridPane.columnIndex="2" GridPane.rowIndex="14" />
                         <Label text="LSB" GridPane.columnIndex="3" />
                         <Label text="Voice Name" GridPane.columnIndex="4" />
-                        <Label text="MIDI out Device:" GridPane.columnSpan="2" GridPane.rowIndex="14" />
-                        <Label text="MIDI in Device:" GridPane.columnSpan="2" GridPane.rowIndex="15" />
-                        <ComboBox fx:id="cmbOutDevice" prefHeight="23.0" prefWidth="172.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="14" />
-                        <ComboBox fx:id="cmbInDevice" prefHeight="23.0" prefWidth="172.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="15" />
-                        <Label fx:id="lblSplitpoint" text="E 5" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
-                        <Button fx:id="btnSearchDevice" mnemonicParsing="false" onAction="#searchDevice" text="Search Device" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="13" />
-                        <CheckBox fx:id="chkSoundFont" mnemonicParsing="false" text="Use SoundFont" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="13" />
-                        <Label fx:id="lblDevOutNull" text="dev[OUT] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="14" />
-                        <Label fx:id="lblDevInNull" layoutX="387.0" layoutY="438.0" text="dev[IN] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="15" />
-                        <Label text="Sequencer Test:" GridPane.columnSpan="2" GridPane.rowIndex="16" />
-                        <Button fx:id="btnSeqStart" mnemonicParsing="false" onAction="#btnSeqStartClicked" text="Start" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="16" />
-                        <Button fx:id="btnSeqStop" layoutX="337.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStopClicked" text="Stop" GridPane.columnIndex="7" GridPane.rowIndex="16" />
-                        <Button fx:id="btnSeqClose" layoutX="387.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqCloseClicked" text="Close" GridPane.columnIndex="8" GridPane.rowIndex="16" />
-                        <Button fx:id="btnSeqInit" layoutX="435.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqInitClicked" text="Init" GridPane.columnIndex="2" GridPane.rowIndex="16" />
-                        <Button fx:id="btnSeqPause" layoutX="285.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqPauseClicked" text="Pause" GridPane.columnIndex="6" GridPane.rowIndex="16" />
-                        <Button fx:id="btnSeqStartRec" layoutX="112.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStartRecClicked" text="startRec" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="16" />
-                        <Button fx:id="btnSeqStopRec" alignment="CENTER_RIGHT" layoutX="178.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStopRecClicked" text="stopRec" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="16" />
-                        <ComboBox fx:id="cmbMidiFiles" editable="true" layoutX="100.0" layoutY="314.0" prefHeight="23.0" prefWidth="195.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="17" />
-                        <Button fx:id="btnReadMidFile" layoutX="112.0" layoutY="344.0" mnemonicParsing="false" onAction="#onBtnReadMidFileClicked" text="Read" GridPane.columnIndex="5" GridPane.rowIndex="17" />
-                        <Button fx:id="btnWriteMidFile" layoutX="112.0" layoutY="374.0" mnemonicParsing="false" onAction="#onBtnWriteMidFileClicked" text="Write" GridPane.columnIndex="6" GridPane.rowIndex="17" />
-                        <CheckBox fx:id="chkLoopOn" mnemonicParsing="false" text="Loop*" GridPane.rowIndex="17" />
-                        <TextField fx:id="txtLoopCount" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="30.0" text="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="17" />
+                        <Label text="MIDI out Device:" GridPane.columnSpan="2" GridPane.rowIndex="15" />
+                        <Label text="MIDI in Device:" GridPane.columnSpan="2" GridPane.rowIndex="16" />
+                        <ComboBox fx:id="cmbOutDevice" prefHeight="23.0" prefWidth="172.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="15" />
+                        <ComboBox fx:id="cmbInDevice" prefHeight="23.0" prefWidth="172.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="16" />
+                        <Label fx:id="lblSplitpoint" text="E 5" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="14" />
+                        <Button fx:id="btnSearchDevice" mnemonicParsing="false" onAction="#searchDevice" text="Search Device" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="15" />
+                        <CheckBox fx:id="chkSoundFont" mnemonicParsing="false" text="Use SoundFont" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="14" />
+                        <Label fx:id="lblDevOutNull" text="dev[OUT] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="15" />
+                        <Label fx:id="lblDevInNull" layoutX="387.0" layoutY="438.0" text="dev[IN] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="16" />
+                        <Label text="Sequencer Test:" GridPane.columnSpan="2" GridPane.rowIndex="18" />
+                        <Button fx:id="btnSeqStart" mnemonicParsing="false" onAction="#btnSeqStartClicked" text="Start" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="18" />
+                        <Button fx:id="btnSeqStop" layoutX="337.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStopClicked" text="Stop" GridPane.columnIndex="7" GridPane.rowIndex="18" />
+                        <Button fx:id="btnSeqClose" layoutX="387.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqCloseClicked" text="Close" GridPane.columnIndex="8" GridPane.rowIndex="18" />
+                        <Button fx:id="btnSeqInit" layoutX="435.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqInitClicked" text="Init" GridPane.columnIndex="2" GridPane.rowIndex="18" />
+                        <Button fx:id="btnSeqPause" layoutX="285.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqPauseClicked" text="Pause" GridPane.columnIndex="6" GridPane.rowIndex="18" />
+                        <Button fx:id="btnSeqStartRec" layoutX="112.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStartRecClicked" text="startRec" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="18" />
+                        <Button fx:id="btnSeqStopRec" alignment="CENTER_RIGHT" layoutX="178.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStopRecClicked" text="stopRec" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="18" />
+                        <ComboBox fx:id="cmbMidiFiles" editable="true" layoutX="100.0" layoutY="314.0" prefHeight="23.0" prefWidth="195.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="19" />
+                        <Button fx:id="btnReadMidFile" layoutX="112.0" layoutY="344.0" mnemonicParsing="false" onAction="#onBtnReadMidFileClicked" text="Read" GridPane.columnIndex="5" GridPane.rowIndex="19" />
+                        <Button fx:id="btnWriteMidFile" layoutX="112.0" layoutY="374.0" mnemonicParsing="false" onAction="#onBtnWriteMidFileClicked" text="Write" GridPane.columnIndex="6" GridPane.rowIndex="19" />
+                        <CheckBox fx:id="chkLoopOn" mnemonicParsing="false" text="Loop*" GridPane.rowIndex="19" />
+                        <TextField fx:id="txtLoopCount" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="30.0" text="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="19" />
+                        <Button fx:id="btnConn" layoutX="331.0" layoutY="524.0" mnemonicParsing="false" onAction="#btnConnClicked" text="Conn" GridPane.columnIndex="8" GridPane.rowIndex="19" />
+                        <Label text="MIDI seq Device:" GridPane.columnSpan="2" GridPane.rowIndex="17" />
+                        <ComboBox fx:id="cmbSeqDevice" prefHeight="23.0" prefWidth="170.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="17" />
+                        <Label layoutX="100.0" layoutY="256.0" text="9" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Label layoutX="100.0" layoutY="286.0" text="Drum Set ch." GridPane.rowIndex="9" />
+                        <Button fx:id="btnSongplay" layoutX="285.0" layoutY="462.0" mnemonicParsing="false" onAction="#btnSongplayClicked" text="songplay" GridPane.columnIndex="8" GridPane.rowIndex="14" />
 				   </children>
 				</GridPane>
                </children>

@@ -109,9 +109,10 @@ public class MapVoiceList {
 		
 		return m;
 	}
-	public LinkedHashMap<String, String> getXGDrumNames(int PCno){
+	public LinkedHashMap<String, String> getXGDrumNames(int PCno, LinkedHashMap<String, String> mapDrums){
 		String strPCno = "  1";
 		LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
+//		LinkedHashMap<String, String> m2 = new LinkedHashMap<String, String>();
 
 		try {
 			xpe1 = xp.compile("/ModuleData/DrumSetList/Map[attribute::Name=\"XG Drum\"]/PC[attribute::PC=\"" 
@@ -122,14 +123,19 @@ public class MapVoiceList {
  			Node nd;
 			String drumName;
 			int drumKey = 0;
+			String mapChar = "";
  			for(int i=0; i< nlSelectedPCNodes.getLength(); i++){
  				nd = nlSelectedPCNodes.item(i);
  				if(nd.getNodeName() == "Tone") {
  					nnmAttribs = nd.getAttributes();
  					drumKey = Integer.parseInt(nnmAttribs.getNamedItem("Key").getTextContent().trim());
 					drumName = nnmAttribs.getNamedItem("Name").getTextContent().trim();
+					mapChar = nnmAttribs.getNamedItem("MapChar").getTextContent().trim();
  					m.put(String.valueOf(drumKey), drumName);
- 					System.out.println("drumset:" + drumKey + " " + drumName);
+ 					if(mapChar.length() != 0){
+ 	 					mapDrums.put(mapChar, String.valueOf(drumKey));
+ 					}
+ 					System.out.println("drumset:" + drumKey + " " + drumName + " " + mapChar);
  				}
  			}
 			
@@ -137,7 +143,7 @@ public class MapVoiceList {
 			// TODO Ž©“®¶¬‚³‚ê‚½ catch ƒuƒƒbƒN
 			e.printStackTrace();
 		}
-		
+//		mapDrums = m2;
 		return m;
 	}
 	public int getPrevUseVoiceNo(int voiceNo){
