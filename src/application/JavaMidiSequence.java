@@ -108,27 +108,35 @@ public class JavaMidiSequence {
 		}
 	}
 	public void playSong(ArrayList<SongPart> list){
-		for(SongPart sp : list){
-			try {
-				sequence = MidiSystem.getSequence(new File("./midifiles/" +sp.filename));
-				sequencer.setSequence(sequence);
-				Long partLength = sequence.getTickLength();
-				sequencer.setLoopStartPoint(0L);
-				sequencer.setLoopEndPoint(partLength);
-				sequencer.setLoopCount(sp.loopCount-1);
-				sequencer.start();
-				try {
-					Thread.sleep(partLength * (sp.loopCount));
-				} catch (InterruptedException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
+		
+		Thread th = new Thread(){
+			public void run(){
+				System.out.println("songplay start in another thread");
+				for(SongPart sp : list){
+					try {
+						sequence = MidiSystem.getSequence(new File("./midifiles/" +sp.filename));
+						sequencer.setSequence(sequence);
+						Long partLength = sequence.getTickLength();
+						sequencer.setLoopStartPoint(0L);
+						sequencer.setLoopEndPoint(partLength);
+						sequencer.setLoopCount(sp.loopCount-1);
+						sequencer.start();
+						try {
+							Thread.sleep(partLength * (sp.loopCount));
+						} catch (InterruptedException e) {
+							// TODO 自動生成された catch ブロック
+							e.printStackTrace();
+						}
+						
+					} catch (InvalidMidiDataException | IOException e) {
+						// TODO 自動生成された catch ブロック
+						e.printStackTrace();
+					}
 				}
-				
-			} catch (InvalidMidiDataException | IOException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
+				System.out.println("songplay end in another thread");
 			}
-		}
+		};
+		th.start();
 	}
 	
 	/**

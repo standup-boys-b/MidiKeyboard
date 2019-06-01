@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -43,8 +44,8 @@
 				      <ColumnConstraints maxWidth="260.0" minWidth="10.0" prefWidth="107.0" />
 				      <ColumnConstraints maxWidth="260.0" minWidth="-Infinity" prefWidth="46.0" />
 				      <ColumnConstraints maxWidth="192.0" minWidth="19.0" prefWidth="46.0" />
-				      <ColumnConstraints maxWidth="145.0" minWidth="-Infinity" prefWidth="34.0" />
-				      <ColumnConstraints maxWidth="145.0" minWidth="-Infinity" prefWidth="77.0" />
+				      <ColumnConstraints maxWidth="145.0" minWidth="-Infinity" prefWidth="41.0" />
+				      <ColumnConstraints maxWidth="145.0" minWidth="-Infinity" prefWidth="70.0" />
 				   </columnConstraints>
 				   <children>
 				      <Button fx:id="btnOK" mnemonicParsing="false" onAction="#onBtnOKClicked" text="Send SysEx" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="10" />
@@ -94,24 +95,39 @@
                         <Label fx:id="lblDevOutNull" text="dev[OUT] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="15" />
                         <Label fx:id="lblDevInNull" layoutX="387.0" layoutY="438.0" text="dev[IN] is null!" textFill="RED" visible="false" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="16" />
                         <Label text="Sequencer Test:" GridPane.columnSpan="2" GridPane.rowIndex="18" />
-                        <Button fx:id="btnSeqStart" mnemonicParsing="false" onAction="#btnSeqStartClicked" text="Start" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="18" />
-                        <Button fx:id="btnSeqStop" layoutX="337.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStopClicked" text="Stop" GridPane.columnIndex="7" GridPane.rowIndex="18" />
-                        <Button fx:id="btnSeqClose" layoutX="387.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqCloseClicked" text="Close" GridPane.columnIndex="8" GridPane.rowIndex="18" />
-                        <Button fx:id="btnSeqInit" layoutX="435.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqInitClicked" text="Init" GridPane.columnIndex="2" GridPane.rowIndex="18" />
-                        <Button fx:id="btnSeqPause" layoutX="285.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqPauseClicked" text="Pause" GridPane.columnIndex="6" GridPane.rowIndex="18" />
-                        <Button fx:id="btnSeqStartRec" layoutX="112.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStartRecClicked" text="startRec" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="18" />
-                        <Button fx:id="btnSeqStopRec" alignment="CENTER_RIGHT" layoutX="178.0" layoutY="494.0" mnemonicParsing="false" onAction="#btnSeqStopRecClicked" text="stopRec" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="18" />
                         <ComboBox fx:id="cmbMidiFiles" editable="true" layoutX="100.0" layoutY="314.0" prefHeight="23.0" prefWidth="195.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="19" />
                         <Button fx:id="btnReadMidFile" layoutX="112.0" layoutY="344.0" mnemonicParsing="false" onAction="#onBtnReadMidFileClicked" text="Read" GridPane.columnIndex="5" GridPane.rowIndex="19" />
                         <Button fx:id="btnWriteMidFile" layoutX="112.0" layoutY="374.0" mnemonicParsing="false" onAction="#onBtnWriteMidFileClicked" text="Write" GridPane.columnIndex="6" GridPane.rowIndex="19" />
                         <CheckBox fx:id="chkLoopOn" mnemonicParsing="false" text="Loop*" GridPane.rowIndex="19" />
                         <TextField fx:id="txtLoopCount" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="30.0" text="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="19" />
-                        <Button fx:id="btnConn" layoutX="331.0" layoutY="524.0" mnemonicParsing="false" onAction="#btnConnClicked" text="Conn" GridPane.columnIndex="8" GridPane.rowIndex="19" />
                         <Label text="MIDI seq Device:" GridPane.columnSpan="2" GridPane.rowIndex="17" />
                         <ComboBox fx:id="cmbSeqDevice" prefHeight="23.0" prefWidth="170.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="17" />
                         <Label layoutX="100.0" layoutY="256.0" text="9" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         <Label layoutX="100.0" layoutY="286.0" text="Drum Set ch." GridPane.rowIndex="9" />
                         <Button fx:id="btnSongplay" layoutX="285.0" layoutY="462.0" mnemonicParsing="false" onAction="#btnSongplayClicked" text="songplay" GridPane.columnIndex="8" GridPane.rowIndex="14" />
+                        <ToggleButton fx:id="btnMetronome" mnemonicParsing="false" onAction="#btnMetronomeClicked" text="Metronome" textFill="#330dee" GridPane.columnIndex="8" GridPane.rowIndex="15" />
+                        <TextField fx:id="txtMetroTempo" layoutX="82.0" layoutY="582.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="40.0" text="120" GridPane.columnIndex="7" GridPane.rowIndex="16" />
+                        <FlowPane alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="5" GridPane.rowIndex="18">
+                           <children>
+                              <Button fx:id="btnSeqInit" mnemonicParsing="false" onAction="#btnSeqInitClicked" text="Init" />
+                              <Button fx:id="btnConn" mnemonicParsing="false" onAction="#btnConnClicked" text="Conn" />
+                              <Button fx:id="btnSeqClose" mnemonicParsing="false" onAction="#btnSeqCloseClicked" text="Close" />
+                              <Button fx:id="btnSeqStartRec" mnemonicParsing="false" onAction="#btnSeqStartRecClicked" text="●" textFill="#ee0707" />
+                              <Button fx:id="btnSeqStopRec" mnemonicParsing="false" onAction="#btnSeqStopRecClicked" prefHeight="23.0" prefWidth="20.0" text="■" textFill="#eb0909" />
+                              <Button fx:id="btnSeqStart" mnemonicParsing="false" onAction="#btnSeqStartClicked" text="▶" />
+                              <Button fx:id="btnSeqPause" mnemonicParsing="false" onAction="#btnSeqPauseClicked" text="||">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnSeqStop" mnemonicParsing="false" onAction="#btnSeqStopClicked" text="■" />
+                           </children>
+                        </FlowPane>
+                        <Label layoutX="10.0" layoutY="436.0" text="tempo" GridPane.columnIndex="8" GridPane.rowIndex="16" />
+                        <Label layoutX="418.0" layoutY="496.0" text="precount" GridPane.columnIndex="8" GridPane.rowIndex="17" />
+                        <Label layoutX="418.0" layoutY="526.0" text="recLength" GridPane.columnIndex="8" GridPane.rowIndex="18" />
+                        <TextField fx:id="txtPrecount" layoutX="377.0" layoutY="492.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="40.0" text="4" GridPane.columnIndex="7" GridPane.rowIndex="17" />
+                        <TextField fx:id="txtRecLength" layoutX="377.0" layoutY="522.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="40.0" text="8" GridPane.columnIndex="7" GridPane.rowIndex="18" />
 				   </children>
 				</GridPane>
                </children>

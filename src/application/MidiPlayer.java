@@ -239,6 +239,15 @@ public class MidiPlayer {
 			stopNote(noteNo + sc.getNoteShift(chno), chno, 0);
 		}
 	}
+	public void playMetronome(){
+		try {
+			ShortMessage noteOn = new ShortMessage();
+			noteOn.setMessage(ShortMessage.NOTE_ON, 9, 37, 90);
+			defRecv.send(noteOn, 1L);
+		} catch (InvalidMidiDataException e) {
+			e.printStackTrace();
+		}
+	}
 	public void playNote(int noteNo, int channelNo,int volume) {
 		try {
 			int tmpChNo = channelNo;

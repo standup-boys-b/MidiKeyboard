@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
@@ -45,6 +47,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -62,6 +65,10 @@ public class CtlMU50Player {
 	@FXML private Button btnSeqStartRec;
 	@FXML private Button btnSeqStopRec;
 	@FXML private Button btnSongplay;
+	@FXML private ToggleButton btnMetronome;
+	@FXML private TextField txtMetroTempo;
+	@FXML private TextField txtPrecount;
+	@FXML private TextField txtRecLength;
 
 	@FXML private Button btnReadMidFile;
 	@FXML private Button btnWriteMidFile;
@@ -128,6 +135,8 @@ public class CtlMU50Player {
 	private Label[] lblLSBList;
 
 	private boolean bkOnOffs[] = new boolean[9];
+
+	private Timer timerMetronome;
 
 	
 	public boolean isUseSoundFont(){
@@ -910,6 +919,30 @@ public class CtlMU50Player {
 		seq.play(chkLoopOn.isSelected(), Integer.parseInt(txtLoopCount.getText()));
 	}
 	@FXML
+	public void btnMetronomeClicked(){
+		if(btnMetronome.isSelected()){
+
+			TimerTask tt = new TimerTask(){
+				public void run(){
+					if(mp != null){
+						mp.playMetronome();
+					} else {
+						System.out.println("timertask execute.");
+					}
+				}
+			};
+
+			timerMetronome = new Timer();
+			timerMetronome.schedule(tt, 0, (60*1000) / Integer.parseInt(txtMetroTempo.getText()));
+
+		} else { 
+			if(timerMetronome != null){
+				timerMetronome.cancel();
+			}
+		}
+	}
+	
+	@FXML
 	public void btnSongplayClicked(){
 		txtComment.setText("songplay");
 		java.util.ArrayList<SongPart> songseq = new ArrayList<SongPart>();
@@ -944,8 +977,28 @@ public class CtlMU50Player {
 	
 	@FXML
 	public void btnSeqStartRecClicked(){
-		txtComment.setText("start rec");
-		seq.startRec();
+		int tick = 60000 / Integer.parseInt(txtMetroTempo.getText());
+		int precount = Integer.parseInt(txtPrecount.getText());
+		int reclength  =Integer.parseInt(txtRecLength.getText());
+
+		TimerTask tt1 = new TimerTask(){
+			public void run(){
+				System.out.println("started timerrec");
+				seq.startRec();
+			}
+		};
+		TimerTask tt2 = new TimerTask(){
+			public void run(){
+				System.out.println("stopped timerrec");
+				
+				seq.stopRec();
+			}
+		};
+		Timer timerRecording = new Timer();
+		timerRecording.schedule(tt1, precount * tick);
+		timerRecording.schedule(tt2, (precount+reclength) * tick);
+		
+//		seq.startRec();
 	}
 	@FXML
 	public void btnSeqStopRecClicked(){
