@@ -138,6 +138,8 @@ public class CtlMU50Player {
 
 	private Timer timerMetronome;
 
+	private TextField[] txtRecCh;
+
 	
 	public boolean isUseSoundFont(){
 		return this.chkSoundFont.isSelected();
@@ -194,6 +196,9 @@ public class CtlMU50Player {
 	}
 	public int getVoiceNo(int chno){
 		return Integer.parseInt(txtVoice[chno].getText());
+	}
+	public int getRecCh(int chno){
+		return Integer.parseInt(txtRecCh[chno].getText());
 	}
 	public boolean isChannelOn(int chno){
 		return this.chkOnOff[chno].isSelected();
@@ -532,6 +537,7 @@ public class CtlMU50Player {
 		txtVoice = new TextField[10];
 		txtLSB = new TextField[10];
 		txtShift = new TextField[10];
+		txtRecCh = new TextField[10];
 		lblVoice = new Label[10];
 		chkOnOff = new CheckBox[10];
 		lblNoteNo = new Label[10];
@@ -556,6 +562,11 @@ public class CtlMU50Player {
 			txtShift[i].setEditable(false);
 			txtShift[i].setPrefWidth(20);
 			
+			txtRecCh[i] = new TextField("0");
+			txtRecCh[i].setId(String.valueOf(i));
+			txtRecCh[i].setEditable(false);
+			txtRecCh[i].setPrefWidth(20);
+
 			lblVoice[i] = new Label(mapV.getVoiceName(1));
 			if(i==9){
 				lblVoice[i].setText("Drum Set");
@@ -575,6 +586,7 @@ public class CtlMU50Player {
 			gridPane.add(txtShift[i], 6, i);
 			gridPane.add(chkOnOff[i], 7, i);
 			gridPane.add(lblNoteNo[i], 8, i);
+			gridPane.add(txtRecCh[i], 9, i);
 			txtVoice[i].setOnKeyPressed(KeyEvent -> {
 				changeVoice(KeyEvent);
 			});
@@ -591,7 +603,16 @@ public class CtlMU50Player {
 //				changeSplitpoint(KeyEvent);
 //			});
 		}
-	
+		txtRecCh[1].setText("10");
+		txtRecCh[2].setText("11");
+		txtRecCh[3].setText("12");
+		txtRecCh[4].setText("0");
+		txtRecCh[5].setText("13");
+		txtRecCh[6].setText("14");
+		txtRecCh[7].setText("15");
+		txtRecCh[8].setText("0");
+		txtRecCh[9].setText("9");
+		txtRecCh[9].setDisable(true);
 	}
 	
 	@FXML
@@ -683,19 +704,21 @@ public class CtlMU50Player {
 			txtLSB[i].setDisable(true);
 			txtShift[i].setDisable(editable);
 			txtVolume[i].setDisable(editable);
+			txtRecCh[i].setDisable(editable);
 		}
 		txtVoice[9].setDisable(true);
 		txtLSB[9].setDisable(true);
 		txtShift[9].setDisable(true);
 		txtVolume[9].setDisable(editable);
+		txtRecCh[9].setDisable(true);
 		
 //		btnOpenDevice.setDisable(editable);
 //		btnCloseDevice.setDisable(editable);
 		btnOK.setDisable(editable);
 		cmbFilename.setDisable(editable);
 //		txtComment.setDisable(editable);
-		txtReserve.setDisable(editable);
-		txtSplitpoint.setDisable(editable);
+//		txtReserve.setDisable(editable);
+//		txtSplitpoint.setDisable(editable);
 	}
 	
 	@FXML
